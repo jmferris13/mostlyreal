@@ -98,7 +98,7 @@
 </head>
 <body>
     <div id="header">
-        <img id="logo" src="your-logo.png" alt="Logo">
+        <img id="logo" src="mostlyreal1.webp" alt="Logo">
         <div>
             <button id="prev-article">← Previous</button>
             <button id="next-article">Next →</button>
@@ -110,6 +110,7 @@
         </div>
     </div>
 
+    <h2 id="article-title">Article Title</h2> <!-- Display article title -->
     <div id="article-content">
         <!-- JavaScript will populate sentences here -->
     </div>
@@ -119,14 +120,28 @@
 
     <script>
         // Article data
-        const article = [
-            { text: "President-elect Donald Trump has named Dr. Mehmet Oz as his choice to head the Centers for Medicare and Medicaid Services (CMS).", isTrue: true },
-            { text: "Dr. Oz is a well-known cardiothoracic surgeon and television personality who also ran for Senate in Pennsylvania.", isTrue: true },
-            { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
-            { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
-            { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
+        const articles = [
+            {
+                title: "Trump's Legal Case Delayed Again",
+                content: [
+                    { text: "President-elect Donald Trump has named Dr. Mehmet Oz as his choice to head the Centers for Medicare and Medicaid Services (CMS).", isTrue: true },
+                    { text: "Dr. Oz is a well-known cardiothoracic surgeon and television personality who also ran for Senate in Pennsylvania.", isTrue: true },
+                    { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
+                    { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
+                    { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
+                ]
+            },
+            {
+                title: "Another Article on Legal Proceedings",
+                content: [
+                    { text: "This is a different article with its own sentences.", isTrue: true },
+                    { text: "Here’s another sentence in this article.", isTrue: false }
+                ]
+            },
+            // Add more articles here...
         ];
 
+        let currentArticleIndex = 0; // Keeps track of the current article
         let correctCount = 0;
         let incorrectCount = 0;
         let isMuted = false;
@@ -138,34 +153,65 @@
         const dingSound = document.getElementById('ding-sound');
         const buzzerSound = document.getElementById('buzzer-sound');
 
-        // Populate the article
-        article.forEach((sentence) => {
-            const sentenceDiv = document.createElement('div');
-            sentenceDiv.className = 'sentence';
-            sentenceDiv.innerText = sentence.text;
+        // Load the current article
+        function loadArticle(index) {
+            const article = articles[index];
+            
+            // Update the title of the article
+            document.getElementById('article-title').innerText = article.title;
 
-            const optionsDiv = document.createElement('div');
-            optionsDiv.className = 'options';
+            // Clear previous article content
+            contentDiv.innerHTML = '';
 
-            const trueOption = document.createElement('span');
-            trueOption.className = 'option';
-            trueOption.innerText = 'True';
-            trueOption.addEventListener('click', () => handleAnswer(trueOption, sentence.isTrue, true));
+            // Populate the article sentences
+            article.content.forEach((sentence) => {
+                const sentenceDiv = document.createElement('div');
+                sentenceDiv.className = 'sentence';
+                sentenceDiv.innerText = sentence.text;
 
-            const falseOption = document.createElement('span');
-            falseOption.className = 'option';
-            falseOption.innerText = 'False';
-            falseOption.addEventListener('click', () => handleAnswer(falseOption, sentence.isTrue, false));
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
 
-            optionsDiv.appendChild(trueOption);
-            optionsDiv.appendChild(falseOption);
-            sentenceDiv.appendChild(optionsDiv);
+                const trueOption = document.createElement('span');
+                trueOption.className = 'option';
+                trueOption.innerText = 'True';
+                trueOption.addEventListener('click', () => handleAnswer(trueOption, sentence.isTrue, true));
 
-            sentenceDiv.addEventListener('click', () => {
-                optionsDiv.style.display = optionsDiv.style.display === 'block' ? 'none' : 'block';
+                const falseOption = document.createElement('span');
+                falseOption.className = 'option';
+                falseOption.innerText = 'False';
+                falseOption.addEventListener('click', () => handleAnswer(falseOption, sentence.isTrue, false));
+
+                optionsDiv.appendChild(trueOption);
+                optionsDiv.appendChild(falseOption);
+                sentenceDiv.appendChild(optionsDiv);
+
+                sentenceDiv.addEventListener('click', () => {
+                    optionsDiv.style.display = optionsDiv.style.display === 'block' ? 'none' : 'block';
+                });
+
+                contentDiv.appendChild(sentenceDiv);
             });
 
-            contentDiv.appendChild(sentenceDiv);
+            // Disable or enable buttons based on current article
+            document.getElementById('prev-article').disabled = currentArticleIndex === 0;
+            document.getElementById('next-article').disabled = currentArticleIndex === articles.length - 1;
+        }
+
+        // Handle the previous article
+        document.getElementById('prev-article').addEventListener('click', () => {
+            if (currentArticleIndex > 0) {
+                currentArticleIndex--;
+                loadArticle(currentArticleIndex);
+            }
+        });
+
+        // Handle the next article
+        document.getElementById('next-article').addEventListener('click', () => {
+            if (currentArticleIndex < articles.length - 1) {
+                currentArticleIndex++;
+                loadArticle(currentArticleIndex);
+            }
         });
 
         // Handle answer logic
@@ -175,9 +221,10 @@
             // Disable further clicks by disabling options after selection
             const options = option.parentElement;
             options.querySelectorAll('.option').forEach((btn) => {
-                btn.disabled = true; // Disable the buttons
+                btn.disabled = true; // Disable the buttons to prevent further clicks
             });
 
+            // Mark the sentence as correct or incorrect
             if (userAnswer === correctAnswer) {
                 parent.className = 'sentence correct';
                 correctCount++;
@@ -209,14 +256,8 @@
             muteButton.innerText = isMuted ? 'Unmute' : 'Mute';
         });
 
-        // Navigation Placeholder
-        document.getElementById('prev-article').addEventListener('click', () => {
-            alert('Load the previous article here.');
-        });
-
-        document.getElementById('next-article').addEventListener('click', () => {
-            alert('Load the next article here.');
-        });
+        // Load the first article initially
+        loadArticle(currentArticleIndex);
     </script>
 </body>
 </html>
