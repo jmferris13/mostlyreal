@@ -7,22 +7,69 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 20px;
-      line-height: 1.6;
+      background-color: black;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    #header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #222;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    #logo {
+      width: 50px;
+      height: 50px;
+    }
+    #score {
+      font-size: 1.2em;
+    }
+    #score span {
+      margin-left: 10px;
+    }
+    .green {
+      color: #4caf50;
+    }
+    .red {
+      color: #f44336;
+    }
+    #mute-btn, #prev-article, #next-article {
+      cursor: pointer;
+      background: none;
+      border: 1px solid white;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 1em;
+      margin-left: 10px;
+    }
+    #article-content {
+      padding: 20px;
     }
     .sentence {
       cursor: pointer;
       margin-bottom: 10px;
-      padding: 5px;
+      padding: 10px;
       border: 1px solid #ddd;
       border-radius: 5px;
+      background-color: #333;
     }
-    .sentence:hover {
-      background-color: #f9f9f9;
+    .sentence.correct {
+      background-color: #4caf50;
+      color: black;
+    }
+    .sentence.incorrect {
+      background-color: #f44336;
+      color: black;
     }
     .options {
       display: none;
-      margin-top: 5px;
+      margin-top: 10px;
     }
     .option {
       margin-right: 10px;
@@ -30,25 +77,34 @@
       padding: 5px 10px;
       border-radius: 3px;
       border: 1px solid #ddd;
+      background-color: #555;
+      color: white;
     }
     .option:hover {
-      background-color: #eee;
-    }
-    .correct {
-      background-color: #d4edda !important;
-      color: #155724;
-    }
-    .incorrect {
-      background-color: #f8d7da !important;
-      color: #721c24;
+      background-color: #777;
     }
   </style>
 </head>
 <body>
-  <h1>Dr. Oz Leads National Wellness Initiative</h1>
+  <div id="header">
+    <img id="logo" src="mostlyreal1.webp" alt="Logo">
+    <div>
+      <button id="prev-article">← Previous</button>
+      <button id="next-article">Next →</button>
+    </div>
+    <div id="score">
+      <span class="green">0</span> Correct
+      <span class="red">0</span> Incorrect
+      <button id="mute-btn">Mute</button>
+    </div>
+  </div>
+
   <div id="article-content">
     <!-- JavaScript will populate sentences here -->
   </div>
+
+  <audio id="ding-sound" src="ding.mp3"></audio>
+  <audio id="buzzer-sound" src="buzzer.mp3"></audio>
 
   <script>
     // Article Data
@@ -60,9 +116,18 @@
       { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
     ];
 
-    // Populate Article
-    const contentDiv = document.getElementById('article-content');
+    let correctCount = 0;
+    let incorrectCount = 0;
+    let isMuted = false;
 
+    const contentDiv = document.getElementById('article-content');
+    const correctScore = document.querySelector('.green');
+    const incorrectScore = document.querySelector('.red');
+    const muteButton = document.getElementById('mute-btn');
+    const dingSound = document.getElementById('ding-sound');
+    const buzzerSound = document.getElementById('buzzer-sound');
+
+    // Populate Article
     article.forEach((sentence, index) => {
       const sentenceDiv = document.createElement('div');
       sentenceDiv.className = 'sentence';
@@ -94,14 +159,46 @@
 
     // Handle Answer
     function handleAnswer(option, correctAnswer, userAnswer) {
+      const parent = option.parentElement.parentElement;
+
       if (userAnswer === correctAnswer) {
-        option.parentElement.parentElement.className = 'sentence correct';
+        parent.className = 'sentence correct';
+        correctCount++;
+        playSound(dingSound);
       } else {
-        option.parentElement.parentElement.className = 'sentence incorrect';
+        parent.className = 'sentence incorrect';
+        incorrectCount++;
+        playSound(buzzerSound);
       }
+
+      correctScore.innerText = correctCount;
+      incorrectScore.innerText = incorrectCount;
+
       const options = option.parentElement;
       options.style.display = 'none';
     }
+
+    // Play Sound
+    function playSound(sound) {
+      if (!isMuted) {
+        sound.play();
+      }
+    }
+
+    // Mute Toggle
+    muteButton.addEventListener('click', () => {
+      isMuted = !isMuted;
+      muteButton.innerText = isMuted ? 'Unmute' : 'Mute';
+    });
+
+    // Navigation Placeholder
+    document.getElementById('prev-article').addEventListener('click', () => {
+      alert('Load the previous article here.');
+    });
+
+    document.getElementById('next-article').addEventListener('click', () => {
+      alert('Load the next article here.');
+    });
   </script>
 </body>
 </html>
