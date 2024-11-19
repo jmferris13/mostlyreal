@@ -98,7 +98,7 @@
 </head>
 <body>
     <div id="header">
-        <img id="logo" src="mostlyreal1.webp" alt="Logo">
+        <img id="logo" src="your-logo.png" alt="Logo">
         <div>
             <button id="prev-article">← Previous</button>
             <button id="next-article">Next →</button>
@@ -214,50 +214,3 @@
             }
         });
 
-        // Handle answer logic
-        function handleAnswer(option, correctAnswer, userAnswer) {
-            const parent = option.parentElement.parentElement;
-
-            // Disable further clicks by disabling options after selection
-            const options = option.parentElement;
-            options.querySelectorAll('.option').forEach((btn) => {
-                btn.disabled = true; // Disable the buttons to prevent further clicks
-            });
-
-            // Mark the sentence as correct or incorrect
-            if (userAnswer === correctAnswer) {
-                parent.className = 'sentence correct';
-                correctCount++;
-                playSound(dingSound); // Play correct sound
-            } else {
-                parent.className = 'sentence incorrect';
-                incorrectCount++;
-                playSound(buzzerSound); // Play incorrect sound
-            }
-
-            // Update the score on the page
-            correctScore.innerText = correctCount;
-            incorrectScore.innerText = incorrectCount;
-
-            // Hide options after they've been clicked
-            options.style.display = 'none';
-        }
-
-        // Play sound if not muted
-        function playSound(sound) {
-            if (!isMuted) {
-                sound.play();
-            }
-        }
-
-        // Mute toggle
-        muteButton.addEventListener('click', () => {
-            isMuted = !isMuted;
-            muteButton.innerText = isMuted ? 'Unmute' : 'Mute';
-        });
-
-        // Load the first article initially
-        loadArticle(currentArticleIndex);
-    </script>
-</body>
-</html>
