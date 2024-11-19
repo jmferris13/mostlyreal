@@ -1,24 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Site</title>
-    <style>
-        body {
-            background-color: black;
-            color: white; /* Ensures text is visible against the black background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Article</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.6;
+    }
+    .sentence {
+      cursor: pointer;
+      margin-bottom: 10px;
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .sentence:hover {
+      background-color: #f9f9f9;
+    }
+    .options {
+      display: none;
+      margin-top: 5px;
+    }
+    .option {
+      margin-right: 10px;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 3px;
+      border: 1px solid #ddd;
+    }
+    .option:hover {
+      background-color: #eee;
+    }
+    .correct {
+      background-color: #d4edda !important;
+      color: #155724;
+    }
+    .incorrect {
+      background-color: #f8d7da !important;
+      color: #721c24;
+    }
+  </style>
 </head>
 <body>
-    <img src="mostlyreal1.webp" alt="My Logo">
+  <h1>Dr. Oz Leads National Wellness Initiative</h1>
+  <div id="article-content">
+    <!-- JavaScript will populate sentences here -->
+  </div>
+
+  <script>
+    // Article Data
+    const article = [
+      { text: "President-elect Donald Trump has named Dr. Mehmet Oz as his choice to head the Centers for Medicare and Medicaid Services (CMS).", isTrue: true },
+      { text: "Dr. Oz is a well-known cardiothoracic surgeon and television personality who also ran for Senate in Pennsylvania.", isTrue: true },
+      { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
+      { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
+      { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
+    ];
+
+    // Populate Article
+    const contentDiv = document.getElementById('article-content');
+
+    article.forEach((sentence, index) => {
+      const sentenceDiv = document.createElement('div');
+      sentenceDiv.className = 'sentence';
+      sentenceDiv.innerText = sentence.text;
+
+      const optionsDiv = document.createElement('div');
+      optionsDiv.className = 'options';
+
+      const trueOption = document.createElement('span');
+      trueOption.className = 'option';
+      trueOption.innerText = 'True';
+      trueOption.addEventListener('click', () => handleAnswer(trueOption, sentence.isTrue, true));
+
+      const falseOption = document.createElement('span');
+      falseOption.className = 'option';
+      falseOption.innerText = 'False';
+      falseOption.addEventListener('click', () => handleAnswer(falseOption, sentence.isTrue, false));
+
+      optionsDiv.appendChild(trueOption);
+      optionsDiv.appendChild(falseOption);
+      sentenceDiv.appendChild(optionsDiv);
+
+      sentenceDiv.addEventListener('click', () => {
+        optionsDiv.style.display = optionsDiv.style.display === 'block' ? 'none' : 'block';
+      });
+
+      contentDiv.appendChild(sentenceDiv);
+    });
+
+    // Handle Answer
+    function handleAnswer(option, correctAnswer, userAnswer) {
+      if (userAnswer === correctAnswer) {
+        option.parentElement.parentElement.className = 'sentence correct';
+      } else {
+        option.parentElement.parentElement.className = 'sentence incorrect';
+      }
+      const options = option.parentElement;
+      options.style.display = 'none';
+    }
+  </script>
 </body>
 </html>
