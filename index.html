@@ -179,3 +179,88 @@
                 trueOption.innerText = 'True';
                 trueOption.addEventListener('click', () => handleAnswer(trueOption, sentence.isTrue, true));
 
+                const falseOption = document.createElement('span');
+                falseOption.className = 'option';
+                falseOption.innerText = 'False';
+                falseOption.addEventListener('click', () => handleAnswer(falseOption, sentence.isTrue, false));
+
+                optionsDiv.appendChild(trueOption);
+                optionsDiv.appendChild(falseOption);
+                sentenceDiv.appendChild(optionsDiv);
+
+                sentenceDiv.addEventListener('click', () => {
+                    optionsDiv.style.display = optionsDiv.style.display === 'block' ? 'none' : 'block';
+                });
+
+                contentDiv.appendChild(sentenceDiv);
+            });
+
+            // Disable or enable buttons based on current article
+            document.getElementById('prev-article').disabled = currentArticleIndex === 0;
+            document.getElementById('next-article').disabled = currentArticleIndex === articles.length - 1;
+        }
+
+        // Handle the previous article
+        document.getElementById('prev-article').addEventListener('click', () => {
+            if (currentArticleIndex > 0) {
+                currentArticleIndex--;
+                loadArticle(currentArticleIndex);
+            }
+        });
+
+        // Handle the next article
+        document.getElementById('next-article').addEventListener('click', () => {
+            if (currentArticleIndex < articles.length - 1) {
+                currentArticleIndex++;
+                loadArticle(currentArticleIndex);
+            }
+        });
+
+        // Handle answer logic
+        function handleAnswer(option, correctAnswer, userAnswer) {
+            const parent = option.parentElement.parentElement;
+
+            // Disable both True and False options immediately after selection
+            const options = option.parentElement;
+            const allOptions = options.querySelectorAll('.option');
+            allOptions.forEach((btn) => {
+                btn.disabled = true; // Disable both True and False options
+            });
+
+            // Mark the sentence as correct or incorrect
+            if (userAnswer === correctAnswer) {
+                parent.className = 'sentence correct';
+                correctCount++;
+                playSound(dingSound); // Play correct sound
+            } else {
+                parent.className = 'sentence incorrect';
+                incorrectCount++;
+                playSound(buzzerSound); // Play incorrect sound
+            }
+
+            // Update the score on the page
+            correctScore.innerText = correctCount;
+            incorrectScore.innerText = incorrectCount;
+
+            // Hide options after they've been clicked
+            options.style.display = 'none';
+        }
+
+        // Play sound if not muted
+        function playSound(sound) {
+            if (!isMuted) {
+                sound.play();
+            }
+        }
+
+        // Mute toggle
+        muteButton.addEventListener('click', () => {
+            isMuted = !isMuted;
+            muteButton.innerText = isMuted ? 'Unmute' : 'Mute';
+        });
+
+        // Load the first article initially
+        loadArticle(currentArticleIndex);
+    </script>
+</body>
+</html>
