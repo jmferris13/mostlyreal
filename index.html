@@ -1,215 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Article</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: black;
-      color: white;
-      margin: 0;
-      padding: 0;
-    }
-    #header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 20px;
-      background-color: #222;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
- #logo {
-    width: 75px; /* Increase the size to make it bigger */
-    height: 75px; /* Keep the aspect ratio consistent */
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Article</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
 
-    }
-    #score {
-      font-size: 1.2em;
-    }
-    #score span {
-      margin-left: 10px;
-    }
-    .green {
-      color: #4caf50;
-    }
-    .red {
-      color: #f44336;
-    }
-    #mute-btn, #prev-article, #next-article {
-      cursor: pointer;
-      background: none;
-      border: 1px solid white;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 1em;
-      margin-left: 10px;
-    }
-    #article-content {
-      padding: 20px;
-    }
-    .sentence {
-      cursor: pointer;
-      margin-bottom: 10px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background-color: #333;
-    }
-    .sentence.correct {
-      background-color: #4caf50;
-      color: black;
-    }
-    .sentence.incorrect {
-      background-color: #f44336;
-      color: black;
-    }
-    .options {
-      display: none;
-      margin-top: 10px;
-    }
-    .option {
-      margin-right: 10px;
-      cursor: pointer;
-      padding: 5px 10px;
-      border-radius: 3px;
-      border: 1px solid #ddd;
-      background-color: #555;
-      color: white;
-    }
-    .option:hover {
-      background-color: #777;
-    }
-  </style>
+        #header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #222;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        #logo {
+            width: 75px; /* Slightly larger logo */
+            height: auto;
+        }
+
+        #score {
+            font-size: 1.2em;
+        }
+
+        #score span {
+            margin-left: 10px;
+        }
+
+        #mute-btn, #prev-article, #next-article {
+            cursor: pointer;
+            background: none;
+            border: 1px solid white;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-left: 10px;
+        }
+
+        #article-content {
+            padding: 20px;
+        }
+
+        .sentence {
+            cursor: pointer;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #333;
+        }
+
+        .sentence.correct {
+            background-color: #4caf50;
+            color: black;
+        }
+
+        .sentence.incorrect {
+            background-color: #f44336;
+            color: black;
+        }
+
+        .options {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .option {
+            margin-right: 10px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+            background-color: #555;
+            color: white;
+        }
+
+        .option:hover {
+            background-color: #777;
+        }
+
+        .option:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 <body>
-  <div id="header">
-    <img id="logo" src="mostlyreal1.webp" alt="Logo">
-    <div>
-      <button id="prev-article">← Previous</button>
-      <button id="next-article">Next →</button>
+    <div id="header">
+        <img id="logo" src="your-logo.png" alt="Logo">
+        <div>
+            <button id="prev-article">← Previous</button>
+            <button id="next-article">Next →</button>
+        </div>
+        <div id="score">
+            <span class="green">0</span> Correct
+            <span class="red">0</span> Incorrect
+            <button id="mute-btn">Mute</button>
+        </div>
     </div>
-    <div id="score">
-      <span class="green">0</span> Correct
-      <span class="red">0</span> Incorrect
-      <button id="mute-btn">Mute</button>
+
+    <div id="article-content">
+        <!-- JavaScript will populate sentences here -->
     </div>
-  </div>
 
-  <div id="article-content">
-    <!-- JavaScript will populate sentences here -->
-  </div>
+    <audio id="ding-sound" src="ding.mp3"></audio>
+    <audio id="buzzer-sound" src="buzzer.mp3"></audio>
 
-  <audio id="ding-sound" src="ding.mp3"></audio>
-  <audio id="buzzer-sound" src="buzzer.mp3"></audio>
+    <script>
+        // Article data
+        const article = [
+            { text: "President-elect Donald Trump has named Dr. Mehmet Oz as his choice to head the Centers for Medicare and Medicaid Services (CMS).", isTrue: true },
+            { text: "Dr. Oz is a well-known cardiothoracic surgeon and television personality who also ran for Senate in Pennsylvania.", isTrue: true },
+            { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
+            { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
+            { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
+        ];
 
-  <script>
-    // Article Data
-    const article = [
-      { text: "President-elect Donald Trump has named Dr. Mehmet Oz as his choice to head the Centers for Medicare and Medicaid Services (CMS).", isTrue: true },
-      { text: "Dr. Oz is a well-known cardiothoracic surgeon and television personality who also ran for Senate in Pennsylvania.", isTrue: true },
-      { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
-      { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
-      { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
-    ];
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let isMuted = false;
 
-    let correctCount = 0;
-    let incorrectCount = 0;
-    let isMuted = false;
+        const contentDiv = document.getElementById('article-content');
+        const correctScore = document.querySelector('.green');
+        const incorrectScore = document.querySelector('.red');
+        const muteButton = document.getElementById('mute-btn');
+        const dingSound = document.getElementById('ding-sound');
+        const buzzerSound = document.getElementById('buzzer-sound');
 
-    const contentDiv = document.getElementById('article-content');
-    const correctScore = document.querySelector('.green');
-    const incorrectScore = document.querySelector('.red');
-    const muteButton = document.getElementById('mute-btn');
-    const dingSound = document.getElementById('ding-sound');
-    const buzzerSound = document.getElementById('buzzer-sound');
+        // Populate the article
+        article.forEach((sentence) => {
+            const sentenceDiv = document.createElement('div');
+            sentenceDiv.className = 'sentence';
+            sentenceDiv.innerText = sentence.text;
 
-    // Populate Article
-    article.forEach((sentence, index) => {
-      const sentenceDiv = document.createElement('div');
-      sentenceDiv.className = 'sentence';
-      sentenceDiv.innerText = sentence.text;
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
 
-      const optionsDiv = document.createElement('div');
-      optionsDiv.className = 'options';
+            const trueOption = document.createElement('span');
+            trueOption.className = 'option';
+            trueOption.innerText = 'True';
+            trueOption.addEventListener('click', () => handleAnswer(trueOption, sentence.isTrue, true));
 
-      const trueOption = document.createElement('span');
-      trueOption.className = 'option';
-      trueOption.innerText = 'True';
-      trueOption.addEventListener('click', () => handleAnswer(trueOption, sentence.isTrue, true));
+            const falseOption = document.createElement('span');
+            falseOption.className = 'option';
+            falseOption.innerText = 'False';
+            falseOption.addEventListener('click', () => handleAnswer(falseOption, sentence.isTrue, false));
 
-      const falseOption = document.createElement('span');
-      falseOption.className = 'option';
-      falseOption.innerText = 'False';
-      falseOption.addEventListener('click', () => handleAnswer(falseOption, sentence.isTrue, false));
+            optionsDiv.appendChild(trueOption);
+            optionsDiv.appendChild(falseOption);
+            sentenceDiv.appendChild(optionsDiv);
 
-      optionsDiv.appendChild(trueOption);
-      optionsDiv.appendChild(falseOption);
-      sentenceDiv.appendChild(optionsDiv);
+            sentenceDiv.addEventListener('click', () => {
+                optionsDiv.style.display = optionsDiv.style.display === 'block' ? 'none' : 'block';
+            });
 
-      sentenceDiv.addEventListener('click', () => {
-        optionsDiv.style.display = optionsDiv.style.display === 'block' ? 'none' : 'block';
-      });
+            contentDiv.appendChild(sentenceDiv);
+        });
 
-      contentDiv.appendChild(sentenceDiv);
-    });
+        // Handle answer logic
+        function handleAnswer(option, correctAnswer, userAnswer) {
+            const parent = option.parentElement.parentElement;
 
-    // Handle Answer
-    function handleAnswer(option, correctAnswer, userAnswer) {
-  const parent = option.parentElement.parentElement;
+            // Disable further clicks by disabling options after selection
+            const options = option.parentElement;
+            options.querySelectorAll('.option').forEach((btn) => {
+                btn.disabled = true; // Disable the buttons
+            });
 
-  // Prevent further clicks by disabling the options after the first selection
-  const options = option.parentElement;
-  options.querySelectorAll('.option').forEach((btn) => {
-    btn.disabled = true; // Disable the buttons
-  });
+            if (userAnswer === correctAnswer) {
+                parent.className = 'sentence correct';
+                correctCount++;
+                playSound(dingSound); // Play correct sound
+            } else {
+                parent.className = 'sentence incorrect';
+                incorrectCount++;
+                playSound(buzzerSound); // Play incorrect sound
+            }
 
-  if (userAnswer === correctAnswer) {
-    parent.className = 'sentence correct';
-    correctCount++;
-    playSound(dingSound); // Play correct sound
-  } else {
-    parent.className = 'sentence incorrect';
-    incorrectCount++;
-    playSound(buzzerSound); // Play incorrect sound
-  }
+            // Update the score on the page
+            correctScore.innerText = correctCount;
+            incorrectScore.innerText = incorrectCount;
 
-  // Update the score on the page
-  correctScore.innerText = correctCount;
-  incorrectScore.innerText = incorrectCount;
+            // Hide options after they've been clicked
+            options.style.display = 'none';
+        }
 
-  // Hide the options after they've been clicked
-  options.style.display = 'none';
-}
+        // Play sound if not muted
+        function playSound(sound) {
+            if (!isMuted) {
+                sound.play();
+            }
+        }
 
-    }
+        // Mute toggle
+        muteButton.addEventListener('click', () => {
+            isMuted = !isMuted;
+            muteButton.innerText = isMuted ? 'Unmute' : 'Mute';
+        });
 
-    // Play Sound
-    function playSound(sound) {
-      if (!isMuted) {
-        sound.play();
-      }
-    }
+        // Navigation Placeholder
+        document.getElementById('prev-article').addEventListener('click', () => {
+            alert('Load the previous article here.');
+        });
 
-    // Mute Toggle
-    muteButton.addEventListener('click', () => {
-      isMuted = !isMuted;
-      muteButton.innerText = isMuted ? 'Unmute' : 'Mute';
-    });
-
-    // Navigation Placeholder
-    document.getElementById('prev-article').addEventListener('click', () => {
-      alert('Load the previous article here.');
-    });
-
-    document.getElementById('next-article').addEventListener('click', () => {
-      alert('Load the next article here.');
-    });
-  </script>
+        document.getElementById('next-article').addEventListener('click', () => {
+            alert('Load the next article here.');
+        });
+    </script>
 </body>
 </html>
