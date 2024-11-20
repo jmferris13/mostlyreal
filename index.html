@@ -126,7 +126,8 @@
                     { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
                     { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
                     { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
-                ]
+                ],
+                source: "https://www.cnn.com/2024/11/19/politics/mehmet-oz-trump-medicare-medicaid"
             },
             // Add more articles here if needed
         ];
@@ -177,6 +178,10 @@
                 sentenceDiv.appendChild(optionsDiv);
                 contentDiv.appendChild(sentenceDiv);
             });
+
+            // Update source link
+            document.getElementById('source-link').innerHTML = `<a href="${article.source}" target="_blank">Source</a>`;
+            document.getElementById('source-link').style.visibility = 'hidden';
         }
 
         function validateAnswer(isTrue, userAnswer, sentenceDiv, trueBtn, falseBtn) {
@@ -197,6 +202,7 @@
                 }
             }
             playSound(userAnswer === isTrue ? 'ding' : 'buzzer');
+            checkCompletion();
         }
 
         function playSound(type) {
