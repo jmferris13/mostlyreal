@@ -15,6 +15,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            text-align: center;
         }
 
         #header {
@@ -265,13 +266,11 @@
             if (userAnswer === correctAnswer) {
                 sentenceDiv.className = 'sentence correct';
                 option.style.backgroundColor = "#4CAF50"; // Green for correct
-                sentenceDiv.innerHTML += " TRUE"; // Show TRUE for correct answer
                 correctCount++;
                 playSound(dingSound); // Play correct sound
             } else {
                 sentenceDiv.className = 'sentence incorrect';
                 option.style.backgroundColor = "#F44336"; // Red for incorrect
-                sentenceDiv.innerHTML += " FALSE"; // Show FALSE for incorrect answer
                 incorrectCount++;
                 playSound(buzzerSound); // Play incorrect sound
             }
