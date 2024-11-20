@@ -16,7 +16,6 @@
             align-items: center;
             min-height: 100vh;
         }
-
         #header {
             display: flex;
             justify-content: space-between;
@@ -26,16 +25,13 @@
             width: 100%;
             box-sizing: border-box;
         }
-
         #logo {
             width: 75px;
             height: auto;
         }
-
         #score {
             font-size: 1.2em;
         }
-
         #mute-btn, #prev-article, #next-article {
             cursor: pointer;
             background: none;
@@ -45,13 +41,11 @@
             border-radius: 5px;
             font-size: 1em;
         }
-
         #article-content {
             padding: 20px;
             width: 80%;
             text-align: left;
         }
-
         .sentence {
             margin-bottom: 10px;
             padding: 10px;
@@ -59,11 +53,9 @@
             border-radius: 5px;
             background-color: #333;
         }
-
         .options {
             margin-top: 5px;
         }
-
         .option {
             margin-right: 10px;
             cursor: pointer;
@@ -74,22 +66,14 @@
             background-color: #555;
             color: white;
         }
-
         .option.correct {
             background-color: limegreen;
             color: white;
         }
-
         .option.incorrect {
             background-color: darkred;
             color: white;
         }
-
-        .option.selected {
-            font-weight: bold;
-            border: 2px solid yellow;
-        }
-
         #source-link {
             margin-top: 20px;
             text-align: center;
@@ -99,7 +83,6 @@
             border-radius: 5px;
             background-color: #ccc; /* Neutral gray */
         }
-
         #source-link a {
             text-decoration: none;
             color: black;
@@ -118,7 +101,7 @@
             <span class="red">0</span> Incorrect
             <button id="mute-btn">Mute</button>
         </div>
-    </div> <!-- Corrected missing closing tag -->
+    </div>
 
     <h2 id="article-title">Dr. Oz to Lead CMS</h2>
     <div id="article-content">
@@ -126,44 +109,108 @@
     </div>
 
     <div id="source-link">
-        <a href="https://www.cnn.com/2024/11/19/politics/mehmet-oz-trump-medicare-medicaid" target="_blank">Source</a>
+        <a href="https://www.cnn.com" target="_blank">Source</a>
     </div>
 
     <audio id="ding-sound" src="ding.mp3"></audio>
     <audio id="buzzer-sound" src="buzzer.mp3"></audio>
 
     <script>
-        // Inside your existing <script> tag, after:
-document.addEventListener('DOMContentLoaded', function() {
-    // Clear existing code here and replace with:
-    let currentArticleIndex = 0;
-    const articles = [
-        {
-            title: "Dr. Oz to Lead CMS",
-            sentences: [
-                { text: "President-elect Donald Trump has named Dr. Mehmet Oz as his choice to head the Centers for Medicare and Medicaid Services (CMS).", isTrue: true },
-                // more sentences here
-            ]
-        },
-        // more articles here
-    ];
+        let currentArticleIndex = 0;
+        const articles = [
+            {
+                title: "Dr. Oz to Lead CMS",
+                sentences: [
+                    { text: "President-elect Donald Trump has named Dr. Mehmet Oz as his choice to head the Centers for Medicare and Medicaid Services (CMS).", isTrue: true },
+                    { text: "Dr. Oz is a well-known cardiothoracic surgeon and television personality who also ran for Senate in Pennsylvania.", isTrue: true },
+                    { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
+                    { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
+                    { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
+                ]
+            },
+            // Add more articles here if needed
+        ];
 
-    function loadArticle(index) {
-        // Code to load the article based on index
-    }
+        document.addEventListener('DOMContentLoaded', function() {
+            loadArticle(currentArticleIndex);
 
-    // Previous and Next button handlers
-    document.getElementById('next-article').addEventListener('click', function() {
-        // Code to handle next article loading
-    });
+            document.getElementById('next-article').addEventListener('click', () => {
+                if (currentArticleIndex < articles.length - 1) {
+                    currentArticleIndex++;
+                    loadArticle(currentArticleIndex);
+                }
+            });
 
-    document.getElementById('prev-article').addEventListener('click', function() {
-        // Code to handle previous article loading
-    });
+            document.getElementById('prev-article').addEventListener('click', () => {
+                if (currentArticleIndex > 0) {
+                    currentArticleIndex--;
+                    loadArticle(currentArticleIndex);
+                }
+            });
+        });
 
-    loadArticle(currentArticleIndex); // Initial call to load the first article
-});
+        function loadArticle(index) {
+            const article = articles[index];
+            document.getElementById('article-title').textContent = article.title;
+            const contentDiv = document.getElementById('article-content');
+            contentDiv.innerHTML = ''; // Clear existing content
+            article.sentences.forEach(sentence => {
+                const sentenceDiv = document.createElement('div');
+                sentenceDiv.className = 'sentence';
+                sentenceDiv.textContent = sentence.text;
 
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
+
+                const trueBtn = document.createElement('button');
+                trueBtn.className = 'option';
+                trueBtn.textContent = 'True';
+                trueBtn.onclick = () => validateAnswer(sentence.isTrue, true, sentenceDiv, trueBtn, falseBtn);
+
+                const falseBtn = document.createElement('button');
+                falseBtn.className = 'option';
+                falseBtn.textContent = 'False';
+                falseBtn.onclick = () => validateAnswer(sentence.isTrue, false, sentenceDiv, trueBtn, falseBtn);
+
+                optionsDiv.appendChild(trueBtn);
+                optionsDiv.appendChild(falseBtn);
+                sentenceDiv.appendChild(optionsDiv);
+                contentDiv.appendChild(sentenceDiv);
+            });
+        }
+
+        function validateAnswer(isTrue, userAnswer, sentenceDiv, trueBtn, falseBtn) {
+            trueBtn.disabled = true;
+            falseBtn.disabled = true;
+            if (userAnswer === isTrue) {
+                sentenceDiv.style.backgroundColor = 'limegreen'; // Correct
+                if(userAnswer) trueBtn.classList.add('correct');
+                else falseBtn.classList.add('correct');
+            } else {
+                sentenceDiv.style.backgroundColor = 'darkred'; // Incorrect
+                if(userAnswer) {
+                    trueBtn.classList.add('incorrect');
+                    falseBtn.classList.add('correct');
+                } else {
+                    falseBtn.classList.add('incorrect');
+                    trueBtn.classList.add('correct');
+                }
+            }
+            playSound(userAnswer === isTrue ? 'ding' : 'buzzer');
+        }
+
+        function playSound(type) {
+            const sound = document.getElementById(`${type}-sound`);
+            sound.play();
+        }
+
+        function checkCompletion() {
+            const options = document.querySelectorAll('.option');
+            const allDisabled = Array.from(options).every(option => option.disabled);
+            if (allDisabled) {
+                document.getElementById('source-link').style.visibility = 'visible';
+            }
+        }
     </script>
 </body>
 </html>
