@@ -12,10 +12,9 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            text-align: center;
         }
 
         #header {
@@ -28,10 +27,11 @@
             top: 0;
             z-index: 1000;
             width: 100%;
+            box-sizing: border-box;
         }
 
         #logo {
-            width: 75px; /* Slightly larger logo */
+            width: 75px; /* Adjust size as needed */
             height: auto;
         }
 
@@ -51,12 +51,11 @@
             padding: 5px 10px;
             border-radius: 5px;
             font-size: 1em;
-            margin-left: 10px;
         }
 
         #article-content {
             padding: 20px;
-            max-width: 800px;
+            width: 80%; /* Set a max-width for better control */
             text-align: left;
         }
 
@@ -67,16 +66,6 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             background-color: #333;
-        }
-
-        .sentence.correct {
-            background-color: #4caf50;
-            color: black;
-        }
-
-        .sentence.incorrect {
-            background-color: #f44336;
-            color: black;
         }
 
         .options {
@@ -93,10 +82,6 @@
             color: white;
         }
 
-        .option:hover {
-            background-color: #777;
-        }
-
         .option:disabled {
             background-color: #ccc;
             cursor: not-allowed;
@@ -105,6 +90,7 @@
         #source-link {
             margin-top: 20px;
             text-align: center;
+            visibility: hidden; /* Initially hidden */
         }
 
         #source-link a {
@@ -118,15 +104,11 @@
         #source-link a:hover {
             background-color: #45a049;
         }
-
-        #article-title {
-            text-align: center;
-        }
     </style>
 </head>
 <body>
     <div id="header">
-        <img id="logo" src="mostlyreal1.webp" alt="Logo"> <!-- Updated logo path -->
+        <img id="logo" src="mostlyreal1.webp" alt="Logo">
         <div>
             <button id="prev-article">← Previous</button>
             <button id="next-article">Next →</button>
@@ -138,166 +120,75 @@
         </div>
     </div>
 
-    <h2 id="article-title">Article Title</h2> <!-- Display article title -->
+    <h2 id="article-title">Dr. Oz to Lead CMS</h2>
     <div id="article-content">
-        <!-- JavaScript will populate sentences here -->
+        <!-- Article content is dynamically loaded -->
+    </div>
+
+    <div id="source-link">
+        <a href="https://www.cnn.com/2024/11/19/politics/mehmet-oz-trump-medicare-medicaid" target="_blank">Source</a>
     </div>
 
     <audio id="ding-sound" src="ding.mp3"></audio>
     <audio id="buzzer-sound" src="buzzer.mp3"></audio>
 
     <script>
-        // Article data
-        const articles = [
-            {
-                title: "Dr. Oz to Lead CMS",
-                content: [
-                    { text: "President-elect Donald Trump has named Dr. Mehmet Oz as his choice to head the Centers for Medicare and Medicaid Services (CMS).", isTrue: true },
-                    { text: "Dr. Oz is a well-known cardiothoracic surgeon and television personality who also ran for Senate in Pennsylvania.", isTrue: true },
-                    { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
-                    { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
-                    { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
-                ],
-                sourceLink: "https://www.cnn.com/2024/11/19/politics/mehmet-oz-trump-medicare-medicaid"
-            },
-            {
-                title: "Trump's Legal Case Delayed Again",
-                content: [
-                    { text: "The Manhattan district attorney’s office said Tuesday it would agree to postpone Donald Trump’s sentencing in his hush money case to give prosecutors time to litigate the president-elect’s expected motion to dismiss the case.", isTrue: true },
-                    { text: "In a letter to Judge Juan Merchan, the district attorney’s office also acknowledged that Trump is not likely to be sentenced 'until after the end of Defendant’s upcoming presidential term.'", isTrue: true },
-                    { text: "The DA says Trump’s felony conviction should stand. A source in close to the district attorney’s office said it is open to a four year pause of the case.", isTrue: true },
-                    { text: "In an unexpected twist, Trump plans to introduce a new initiative called 'Operation Delay' where every legal challenge must be delayed until after his second term.", isTrue: false },
-                    { text: "His lawyer Emil Bove has proposed using 'alternative facts' to challenge the charges, a strategy that is met with mixed reactions.", isTrue: false }
-                ],
-                sourceLink: "https://www.cnn.com/politics/live-news/trump-transition-news-11-19-24#cm3ovd7rl000p3b6n4sukn5i1"
-            }
-        ];
+        document.addEventListener('DOMContentLoaded', function() {
+            const sentences = [
+                { text: "President-elect Donald Trump has named Dr. Mehmet Oz as his choice to head the Centers for Medicare and Medicaid Services (CMS).", isTrue: true },
+                { text: "Dr. Oz is a well-known cardiothoracic surgeon and television personality who also ran for Senate in Pennsylvania.", isTrue: true },
+                { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
+                { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
+                { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
+            ];
 
-        let currentArticleIndex = 0; // Keeps track of the current article
-        let correctCount = 0;
-        let incorrectCount = 0;
-        let isMuted = false;
-
-        const contentDiv = document.getElementById('article-content');
-        const correctScore = document.querySelector('.green');
-        const incorrectScore = document.querySelector('.red');
-        const muteButton = document.getElementById('mute-btn');
-        const dingSound = document.getElementById('ding-sound');
-        const buzzerSound = document.getElementById('buzzer-sound');
-
-        // Load the current article
-        function loadArticle(index) {
-            const article = articles[index];
-            
-            // Update the title of the article
-            document.getElementById('article-title').innerText = article.title;
-
-            // Clear previous article content
-            contentDiv.innerHTML = '';
-
-            // Populate the article sentences
-            article.content.forEach((sentence) => {
+            const contentDiv = document.getElementById('article-content');
+            sentences.forEach((sentence, index) => {
                 const sentenceDiv = document.createElement('div');
                 sentenceDiv.className = 'sentence';
-                sentenceDiv.innerText = sentence.text;
+                sentenceDiv.textContent = sentence.text;
 
-                const optionsDiv = document.createElement('div');
-                optionsDiv.className = 'options';
+                const trueBtn = document.createElement('button');
+                trueBtn.className = 'option';
+                trueBtn.textContent = 'True';
+                trueBtn.onclick = () => validateAnswer(sentence.isTrue, true, sentenceDiv, trueBtn, falseBtn);
 
-                const trueOption = document.createElement('span');
-                trueOption.className = 'option';
-                trueOption.innerText = 'True';
-                trueOption.addEventListener('click', () => handleAnswer(trueOption, sentence.isTrue, true, sentenceDiv));
+                const falseBtn = document.createElement('button');
+                falseBtn.className = 'option';
+                falseBtn.textContent = 'False';
+                falseBtn.onclick = () => validateAnswer(sentence.isTrue, false, sentenceDiv, trueBtn, falseBtn);
 
-                const falseOption = document.createElement('span');
-                falseOption.className = 'option';
-                falseOption.innerText = 'False';
-                falseOption.addEventListener('click', () => handleAnswer(falseOption, sentence.isTrue, false, sentenceDiv));
-
-                optionsDiv.appendChild(trueOption);
-                optionsDiv.appendChild(falseOption);
-                sentenceDiv.appendChild(optionsDiv);
-
+                sentenceDiv.appendChild(trueBtn);
+                sentenceDiv.appendChild(falseBtn);
                 contentDiv.appendChild(sentenceDiv);
             });
 
-            // Disable or enable buttons based on current article
-            document.getElementById('prev-article').disabled = currentArticleIndex === 0;
-            document.getElementById('next-article').disabled = currentArticleIndex === articles.length - 1;
-
-            // Add source link at the end only after all questions are answered
-            if (correctCount + incorrectCount === article.content.length) {
-                const sourceLinkDiv = document.createElement('div');
-                sourceLinkDiv.id = 'source-link';
-                const sourceLink = document.createElement('a');
-                sourceLink.href = article.sourceLink;
-                sourceLink.innerText = 'Source';
-                sourceLink.target = '_blank';
-                sourceLinkDiv.appendChild(sourceLink);
-                document.body.appendChild(sourceLinkDiv);
-            }
-        }
-
-        // Handle the previous article
-        document.getElementById('prev-article').addEventListener('click', () => {
-            if (currentArticleIndex > 0) {
-                currentArticleIndex--;
-                loadArticle(currentArticleIndex);
-            }
-        });
-
-        // Handle the next article
-        document.getElementById('next-article').addEventListener('click', () => {
-            if (currentArticleIndex < articles.length - 1) {
-                currentArticleIndex++;
-                loadArticle(currentArticleIndex);
-            }
-        });
-
-        // Handle answer logic
-        function handleAnswer(option, correctAnswer, userAnswer, sentenceDiv) {
-            const options = option.parentElement;
-            const allOptions = options.querySelectorAll('.option');
-            allOptions.forEach((btn) => {
-                btn.disabled = true; // Disable both True and False options
-            });
-
-            // Highlight the sentence based on correctness
-            if (userAnswer === correctAnswer) {
-                sentenceDiv.className = 'sentence correct';
-                option.style.backgroundColor = "#4CAF50"; // Green for correct
-                correctCount++;
-                playSound(dingSound); // Play correct sound
-            } else {
-                sentenceDiv.className = 'sentence incorrect';
-                option.style.backgroundColor = "#F44336"; // Red for incorrect
-                incorrectCount++;
-                playSound(buzzerSound); // Play incorrect sound
+            function validateAnswer(isTrue, userAnswer, sentenceDiv, trueBtn, falseBtn) {
+                trueBtn.disabled = true;
+                falseBtn.disabled = true;
+                if (isTrue === userAnswer) {
+                    sentenceDiv.style.backgroundColor = '#4caf50'; // Correct answer
+                    playSound('ding');
+                } else {
+                    sentenceDiv.style.backgroundColor = '#f44336'; // Incorrect answer
+                    playSound('buzzer');
+                }
+                checkCompletion();
             }
 
-            // Update the score on the page
-            correctScore.innerText = correctCount;
-            incorrectScore.innerText = incorrectCount;
-
-            // Hide options after they've been clicked (optional for cleanliness)
-            options.style.display = 'none';
-        }
-
-        // Play sound if not muted
-        function playSound(sound) {
-            if (!isMuted) {
+            function playSound(type) {
+                const sound = document.getElementById(`${type}-sound`);
                 sound.play();
             }
-        }
 
-        // Mute toggle
-        muteButton.addEventListener('click', () => {
-            isMuted = !isMuted;
-            muteButton.innerText = isMuted ? 'Unmute' : 'Mute';
+            function checkCompletion() {
+                const options = document.querySelectorAll('.option');
+                const allDisabled = Array.from(options).every(option => option.disabled);
+                if (allDisabled) {
+                    document.getElementById('source-link').style.visibility = 'visible';
+                }
+            }
         });
-
-        // Load the first article initially
-        loadArticle(currentArticleIndex);
     </script>
 </body>
 </html>
