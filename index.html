@@ -14,8 +14,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            text-align: center;
+            min-height: 100vh;
         }
 
         #header {
@@ -31,7 +30,7 @@
         }
 
         #logo {
-            width: 125px; /* Slightly larger logo */
+            width: 75px; /* Slightly larger logo */
             height: auto;
         }
 
@@ -57,7 +56,6 @@
         #article-content {
             padding: 20px;
             max-width: 800px;
-            margin: 20px auto;
             text-align: left;
         }
 
@@ -118,6 +116,10 @@
 
         #source-link a:hover {
             background-color: #45a049;
+        }
+
+        #article-title {
+            text-align: center;
         }
     </style>
 </head>
@@ -263,11 +265,13 @@
             if (userAnswer === correctAnswer) {
                 sentenceDiv.className = 'sentence correct';
                 option.style.backgroundColor = "#4CAF50"; // Green for correct
+                sentenceDiv.innerHTML += " TRUE"; // Show TRUE for correct answer
                 correctCount++;
                 playSound(dingSound); // Play correct sound
             } else {
                 sentenceDiv.className = 'sentence incorrect';
                 option.style.backgroundColor = "#F44336"; // Red for incorrect
+                sentenceDiv.innerHTML += " FALSE"; // Show FALSE for incorrect answer
                 incorrectCount++;
                 playSound(buzzerSound); // Play incorrect sound
             }
@@ -298,4 +302,3 @@
     </script>
 </body>
 </html>
-
