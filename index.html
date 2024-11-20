@@ -133,79 +133,37 @@
     <audio id="buzzer-sound" src="buzzer.mp3"></audio>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sentences = [
+        // Inside your existing <script> tag, after:
+document.addEventListener('DOMContentLoaded', function() {
+    // Clear existing code here and replace with:
+    let currentArticleIndex = 0;
+    const articles = [
+        {
+            title: "Dr. Oz to Lead CMS",
+            sentences: [
                 { text: "President-elect Donald Trump has named Dr. Mehmet Oz as his choice to head the Centers for Medicare and Medicaid Services (CMS).", isTrue: true },
-                { text: "Dr. Oz is a well-known cardiothoracic surgeon and television personality who also ran for Senate in Pennsylvania.", isTrue: true },
-                { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
-                { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
-                { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
-            ];
+                // more sentences here
+            ]
+        },
+        // more articles here
+    ];
 
-            const contentDiv = document.getElementById('article-content');
-            const correctScore = document.querySelector('.green');
-            const incorrectScore = document.querySelector('.red');
+    function loadArticle(index) {
+        // Code to load the article based on index
+    }
 
-            sentences.forEach((sentence, index) => {
-                const sentenceDiv = document.createElement('div');
-                sentenceDiv.className = 'sentence';
-                sentenceDiv.textContent = sentence.text;
+    // Previous and Next button handlers
+    document.getElementById('next-article').addEventListener('click', function() {
+        // Code to handle next article loading
+    });
 
-                const optionsDiv = document.createElement('div');
-                optionsDiv.className = 'options';
+    document.getElementById('prev-article').addEventListener('click', function() {
+        // Code to handle previous article loading
+    });
 
-                const trueBtn = document.createElement('button');
-                trueBtn.className = 'option';
-                trueBtn.textContent = 'True';
-                trueBtn.onclick = () => validateAnswer(sentence.isTrue, true, sentenceDiv, trueBtn, falseBtn);
+    loadArticle(currentArticleIndex); // Initial call to load the first article
+});
 
-                const falseBtn = document.createElement('button');
-                falseBtn.className = 'option';
-                falseBtn.textContent = 'False';
-                falseBtn.onclick = () => validateAnswer(sentence.isTrue, false, sentenceDiv, trueBtn, falseBtn);
-
-                optionsDiv.appendChild(trueBtn);
-                optionsDiv.appendChild(falseBtn);
-                sentenceDiv.appendChild(optionsDiv);
-                contentDiv.appendChild(sentenceDiv);
-            });
-
-            function validateAnswer(isTrue, userAnswer, sentenceDiv, trueBtn, falseBtn) {
-                trueBtn.disabled = true;
-                falseBtn.disabled = true;
-                if (isTrue === userAnswer) {
-                    sentenceDiv.style.backgroundColor = 'green'; // Correct answer
-                    trueBtn.classList.add('correct', 'selected');
-                    correctScore.textContent = parseInt(correctScore.textContent) + 1; // Update score
-                    playSound('ding');
-                } else {
-                    sentenceDiv.style.backgroundColor = 'red'; // Incorrect answer
-                    if(userAnswer){
-                        trueBtn.classList.add('incorrect', 'selected');
-                        falseBtn.classList.add('correct');
-                    } else {
-                        falseBtn.classList.add('incorrect', 'selected');
-                        trueBtn.classList.add('correct');
-                    }
-                    incorrectScore.textContent = parseInt(incorrectScore.textContent) + 1; // Update score
-                    playSound('buzzer');
-                }
-                checkCompletion();
-            }
-
-            function playSound(type) {
-                const sound = document.getElementById(`${type}-sound`);
-                sound.play();
-            }
-
-            function checkCompletion() {
-                const options = document.querySelectorAll('.option');
-                const allDisabled = Array.from(options).every(option => option.disabled);
-                if (allDisabled) {
-                    document.getElementById('source-link').style.visibility = 'visible';
-                }
-            }
-        });
     </script>
 </body>
 </html>
