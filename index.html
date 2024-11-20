@@ -25,7 +25,7 @@
         }
 
         #logo {
-            width: 75px; /* Slightly larger logo */
+            width: 110px; /* Slightly larger logo */
             height: auto;
         }
 
@@ -195,12 +195,12 @@
                 const trueOption = document.createElement('span');
                 trueOption.className = 'option';
                 trueOption.innerText = 'True';
-                trueOption.addEventListener('click', () => handleAnswer(trueOption, sentence.isTrue, true));
+                trueOption.addEventListener('click', () => handleAnswer(trueOption, sentence.isTrue, true, sentenceDiv));
 
                 const falseOption = document.createElement('span');
                 falseOption.className = 'option';
                 falseOption.innerText = 'False';
-                falseOption.addEventListener('click', () => handleAnswer(falseOption, sentence.isTrue, false));
+                falseOption.addEventListener('click', () => handleAnswer(falseOption, sentence.isTrue, false, sentenceDiv));
 
                 optionsDiv.appendChild(trueOption);
                 optionsDiv.appendChild(falseOption);
@@ -243,22 +243,21 @@
         });
 
         // Handle answer logic
-        function handleAnswer(option, correctAnswer, userAnswer) {
-            const parent = option.parentElement.parentElement;
-
-            // Disable both True and False options immediately after selection
+        function handleAnswer(option, correctAnswer, userAnswer, sentenceDiv) {
             const options = option.parentElement;
             const allOptions = options.querySelectorAll('.option');
             allOptions.forEach((btn) => {
                 btn.disabled = true; // Disable both True and False options
             });
 
-            // Highlight the clicked button based on correctness
+            // Highlight the sentence based on correctness
             if (userAnswer === correctAnswer) {
+                sentenceDiv.className = 'sentence correct';
                 option.style.backgroundColor = "#4CAF50"; // Green for correct
                 correctCount++;
                 playSound(dingSound); // Play correct sound
             } else {
+                sentenceDiv.className = 'sentence incorrect';
                 option.style.backgroundColor = "#F44336"; // Red for incorrect
                 incorrectCount++;
                 playSound(buzzerSound); // Play incorrect sound
