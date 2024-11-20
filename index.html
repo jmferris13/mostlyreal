@@ -213,15 +213,17 @@
             document.getElementById('prev-article').disabled = currentArticleIndex === 0;
             document.getElementById('next-article').disabled = currentArticleIndex === articles.length - 1;
 
-            // Add source link at the end
-            const sourceLinkDiv = document.createElement('div');
-            sourceLinkDiv.id = 'source-link';
-            const sourceLink = document.createElement('a');
-            sourceLink.href = article.sourceLink;
-            sourceLink.innerText = 'Source';
-            sourceLink.target = '_blank';
-            sourceLinkDiv.appendChild(sourceLink);
-            document.body.appendChild(sourceLinkDiv);
+            // Add source link at the end only after all questions are answered
+            if (correctCount + incorrectCount === article.content.length) {
+                const sourceLinkDiv = document.createElement('div');
+                sourceLinkDiv.id = 'source-link';
+                const sourceLink = document.createElement('a');
+                sourceLink.href = article.sourceLink;
+                sourceLink.innerText = 'Source';
+                sourceLink.target = '_blank';
+                sourceLinkDiv.appendChild(sourceLink);
+                document.body.appendChild(sourceLinkDiv);
+            }
         }
 
         // Handle the previous article
@@ -251,15 +253,13 @@
                 btn.disabled = true; // Disable both True and False options
             });
 
-            // Mark the sentence as correct or incorrect
+            // Highlight the clicked button based on correctness
             if (userAnswer === correctAnswer) {
-                parent.className = 'sentence correct';
-                parent.innerHTML += " TRUE";
+                option.style.backgroundColor = "#4CAF50"; // Green for correct
                 correctCount++;
                 playSound(dingSound); // Play correct sound
             } else {
-                parent.className = 'sentence incorrect';
-                parent.innerHTML += " FALSE";
+                option.style.backgroundColor = "#F44336"; // Red for incorrect
                 incorrectCount++;
                 playSound(buzzerSound); // Play incorrect sound
             }
