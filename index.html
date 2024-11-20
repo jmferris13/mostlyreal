@@ -36,10 +36,6 @@
             font-size: 1.2em;
         }
 
-        #score span {
-            margin-left: 10px;
-        }
-
         #mute-btn, #prev-article, #next-article {
             cursor: pointer;
             background: none;
@@ -71,25 +67,36 @@
         .option {
             margin-right: 10px;
             cursor: pointer;
-            padding: 5px 20px; /* Larger padding for better clickability */
-            font-size: 16px; /* Larger font size */
+            padding: 5px 20px;
+            font-size: 16px;
             border-radius: 3px;
             border: 1px solid #ddd;
             background-color: #555;
             color: white;
         }
 
-        .option:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
+        .option.correct {
+            background-color: green;
+            color: white;
+        }
+
+        .option.incorrect {
+            background-color: red;
+            color: white;
+            text-decoration: line-through;
+        }
+
+        .option.mark {
+            background-color: lime;
+            color: black;
+            font-weight: bold;
         }
 
         #source-link {
             margin-top: 20px;
             text-align: center;
             visibility: hidden;
-            background-color: #eee; /* Light gray background for neutrality */
-            color: black; /* Black text for readability */
+            color: black;
             padding: 10px 20px;
             border-radius: 5px;
         }
@@ -97,6 +104,7 @@
         #source-link a {
             text-decoration: none;
             color: black;
+            background-color: #eee;
         }
     </style>
 </head>
@@ -168,11 +176,15 @@
                 trueBtn.disabled = true;
                 falseBtn.disabled = true;
                 if (isTrue === userAnswer) {
-                    sentenceDiv.style.backgroundColor = '#4caf50'; // Correct answer
+                    sentenceDiv.style.backgroundColor = 'green'; // Correct answer
+                    trueBtn.classList.add('correct');
+                    falseBtn.classList.add('mark');
                     correctScore.textContent = parseInt(correctScore.textContent) + 1; // Update score
                     playSound('ding');
                 } else {
-                    sentenceDiv.style.backgroundColor = '#f44336'; // Incorrect answer
+                    sentenceDiv.style.backgroundColor = 'red'; // Incorrect answer
+                    trueBtn.classList.add('incorrect');
+                    falseBtn.classList.add('correct');
                     incorrectScore.textContent = parseInt(incorrectScore.textContent) + 1; // Update score
                     playSound('buzzer');
                 }
@@ -195,3 +207,4 @@
     </script>
 </body>
 </html>
+
