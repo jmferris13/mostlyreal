@@ -26,7 +26,7 @@
             box-sizing: border-box;
         }
         #logo {
-            width: 150px;
+            width: 75px;
             height: auto;
         }
         #score {
@@ -66,17 +66,25 @@
             background-color: #555;
             color: white;
         }
-        .correct-user {
-            background-color: limegreen; /* Green for correct user selection */
+        .option.correct, .option.correct-user {
+            background-color: darkgreen; /* Green for correct answers */
         }
-        .incorrect-user {
-            background-color: red; /* Red for incorrect user selection */
+        .option.incorrect-user {
+            background-color: darkred; /* Red for incorrect user selection */
         }
-        .correct {
-            background-color: darkgreen; /* Dark green for correct answers */
+        .icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-left: 5px;
         }
-        .incorrect {
-            background-color: darkred; /* Dark red for incorrect answers */
+        .correct-icon {
+            background: url('checkmark.png') no-repeat center; /* Checkmark icon */
+            background-size: cover;
+        }
+        .incorrect-icon {
+            background: url('cross.png') no-repeat center; /* Cross icon */
+            background-size: cover;
         }
         #source-link {
             margin-top: 20px;
@@ -133,11 +141,11 @@
                 ]
             },
             {
-                title: "Second Article Example",
+                title: "Climate Change and Global Policy",
                 sentences: [
-                    { text: "The second article starts with a fact about global warming.", isTrue: true },
-                    { text: "This is a made-up fact for the second article.", isTrue: false },
-                    { text: "Here's another true fact for consistency.", isTrue: true }
+                    { text: "2023 was the warmest year recorded globally, surpassing previous records.", isTrue: true },
+                    { text: "New policies aim to reduce carbon emissions by 50% in the next ten years.", isTrue: true },
+                    { text: "Experts predict that sea levels will rise by 3 feet by the year 2050.", isTrue: false }
                 ]
             }
         ];
@@ -188,30 +196,25 @@
                 sentenceDiv.appendChild(optionsDiv);
                 contentDiv.appendChild(sentenceDiv);
             });
+            checkCompletion();
         }
 
         function validateAnswer(isTrue, userAnswer, sentenceDiv, trueBtn, falseBtn) {
             trueBtn.disabled = true;
             falseBtn.disabled = true;
+            const iconSpan = document.createElement('span');
+            iconSpan.className = 'icon';
             if (userAnswer === isTrue) {
-                sentenceDiv.style.backgroundColor = 'limegreen'; // Correct
-                if(userAnswer) {
-                    trueBtn.classList.add('correct-user');
-                } else {
-                    falseBtn.classList.add('correct-user');
-                }
+                sentenceDiv.style.backgroundColor = 'darkgreen'; // Correct answer
+                iconSpan.className += ' correct-icon';
                 updateScore(true);
             } else {
-                sentenceDiv.style.backgroundColor = 'darkred'; // Incorrect
-                if(userAnswer) {
-                    trueBtn.classList.add('incorrect-user');
-                    falseBtn.classList.add('correct');
-                } else {
-                    falseBtn.classList.add('incorrect-user');
-                    trueBtn.classList.add('correct');
-                }
+                sentenceDiv.style.backgroundColor = 'darkred'; // Incorrect answer
+                iconSpan.className += ' incorrect-icon';
                 updateScore(false);
             }
+            userAnswer ? trueBtn.appendChild(iconSpan) : falseBtn.appendChild(iconSpan);
+            (isTrue ? trueBtn : falseBtn).classList.add('correct'); // Mark the correct option
         }
 
         function updateScore(isCorrect) {
@@ -221,6 +224,14 @@
                 correctScore.textContent = parseInt(correctScore.textContent) + 1;
             } else {
                 incorrectScore.textContent = parseInt(incorrectScore.textContent) + 1;
+            }
+        }
+
+        function checkCompletion() {
+            const options = document.querySelectorAll('.option');
+            const allDisabled = Array.from(options).every(option => option.disabled);
+            if (allDisabled) {
+                document.getElementById('source-link').style.visibility = 'visible';
             }
         }
 
