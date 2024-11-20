@@ -76,20 +76,18 @@
         }
 
         .option.correct {
-            background-color: green;
+            background-color: limegreen;
             color: white;
         }
 
         .option.incorrect {
-            background-color: red;
+            background-color: darkred;
             color: white;
-            text-decoration: line-through;
         }
 
-        .option.mark {
-            background-color: lime;
-            color: black;
+        .option.selected {
             font-weight: bold;
+            border: 2px solid yellow;
         }
 
         #source-link {
@@ -99,12 +97,12 @@
             color: black;
             padding: 10px 20px;
             border-radius: 5px;
+            background-color: #ccc; /* Neutral gray */
         }
 
         #source-link a {
             text-decoration: none;
             color: black;
-            background-color: #eee;
         }
     </style>
 </head>
@@ -120,7 +118,7 @@
             <span class="red">0</span> Incorrect
             <button id="mute-btn">Mute</button>
         </div>
-    </div>
+    </div> <!-- Corrected missing closing tag -->
 
     <h2 id="article-title">Dr. Oz to Lead CMS</h2>
     <div id="article-content">
@@ -177,14 +175,18 @@
                 falseBtn.disabled = true;
                 if (isTrue === userAnswer) {
                     sentenceDiv.style.backgroundColor = 'green'; // Correct answer
-                    trueBtn.classList.add('correct');
-                    falseBtn.classList.add('mark');
+                    trueBtn.classList.add('correct', 'selected');
                     correctScore.textContent = parseInt(correctScore.textContent) + 1; // Update score
                     playSound('ding');
                 } else {
                     sentenceDiv.style.backgroundColor = 'red'; // Incorrect answer
-                    trueBtn.classList.add('incorrect');
-                    falseBtn.classList.add('correct');
+                    if(userAnswer){
+                        trueBtn.classList.add('incorrect', 'selected');
+                        falseBtn.classList.add('correct');
+                    } else {
+                        falseBtn.classList.add('incorrect', 'selected');
+                        trueBtn.classList.add('correct');
+                    }
                     incorrectScore.textContent = parseInt(incorrectScore.textContent) + 1; // Update score
                     playSound('buzzer');
                 }
@@ -207,4 +209,3 @@
     </script>
 </body>
 </html>
-
