@@ -72,7 +72,6 @@
         }
 
         .options {
-            display: none;
             margin-top: 10px;
         }
 
@@ -188,10 +187,6 @@
                 optionsDiv.appendChild(falseOption);
                 sentenceDiv.appendChild(optionsDiv);
 
-                sentenceDiv.addEventListener('click', () => {
-                    optionsDiv.style.display = optionsDiv.style.display === 'block' ? 'none' : 'block';
-                });
-
                 contentDiv.appendChild(sentenceDiv);
             });
 
@@ -242,7 +237,7 @@
             correctScore.innerText = correctCount;
             incorrectScore.innerText = incorrectCount;
 
-            // Hide options after they've been clicked
+            // Hide options after they've been clicked (optional for cleanliness)
             options.style.display = 'none';
         }
 
