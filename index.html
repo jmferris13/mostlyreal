@@ -26,7 +26,7 @@
             box-sizing: border-box;
         }
         #logo {
-            width: 150px;
+            width: 75px;
             height: auto;
         }
         #score {
@@ -66,7 +66,7 @@
             background-color: #555;
             color: white;
         }
-        .option.correct {
+        .option.correct, .option.correct-user {
             background-color: limegreen;
             color: white;
         }
@@ -126,10 +126,16 @@
                     { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
                     { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
                     { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
-                ],
-                source: "https://www.cnn.com/2024/11/19/politics/mehmet-oz-trump-medicare-medicaid"
+                ]
             },
-            // Add more articles here if needed
+            {
+                title: "Second Article Example",
+                sentences: [
+                    { text: "The second article starts with a fact about global warming.", isTrue: true },
+                    { text: "This is a made-up fact for the second article.", isTrue: false },
+                    { text: "Here's another true fact for consistency.", isTrue: true }
+                ]
+            }
         ];
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -178,44 +184,34 @@
                 sentenceDiv.appendChild(optionsDiv);
                 contentDiv.appendChild(sentenceDiv);
             });
-
-            // Update source link
-            document.getElementById('source-link').innerHTML = `<a href="${article.source}" target="_blank">Source</a>`;
-            document.getElementById('source-link').style.visibility = 'hidden';
         }
 
         function validateAnswer(isTrue, userAnswer, sentenceDiv, trueBtn, falseBtn) {
             trueBtn.disabled = true;
             falseBtn.disabled = true;
             if (userAnswer === isTrue) {
-                sentenceDiv.style.backgroundColor = 'limegreen'; // Correct
-                if(userAnswer) trueBtn.classList.add('correct');
-                else falseBtn.classList.add('correct');
+                sentenceDiv.style.backgroundColor = 'limegreen'; // Correct answer
+                if(userAnswer) {
+                    trueBtn.classList.add('correct-user');
+                } else {
+                    falseBtn.classList.add('correct-user');
+                }
             } else {
-                sentenceDiv.style.backgroundColor = 'darkred'; // Incorrect
+                sentenceDiv.style.backgroundColor = 'darkred'; // Incorrect answer
                 if(userAnswer) {
                     trueBtn.classList.add('incorrect');
-                    falseBtn.classList.add('correct');
+                    falseBtn.classList.add('correct-user');
                 } else {
                     falseBtn.classList.add('incorrect');
-                    trueBtn.classList.add('correct');
+                    trueBtn.classList.add('correct-user');
                 }
             }
             playSound(userAnswer === isTrue ? 'ding' : 'buzzer');
-            checkCompletion();
         }
 
         function playSound(type) {
             const sound = document.getElementById(`${type}-sound`);
             sound.play();
-        }
-
-        function checkCompletion() {
-            const options = document.querySelectorAll('.option');
-            const allDisabled = Array.from(options).every(option => option.disabled);
-            if (allDisabled) {
-                document.getElementById('source-link').style.visibility = 'visible';
-            }
         }
     </script>
 </body>
