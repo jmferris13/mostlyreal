@@ -25,7 +25,7 @@
         }
 
         #logo {
-            width: 100px; /* - larger logo */
+            width: 75px; /* Slightly larger logo */
             height: auto;
         }
 
@@ -93,6 +93,23 @@
             background-color: #ccc;
             cursor: not-allowed;
         }
+
+        #source-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #source-link a {
+            color: #fff;
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        #source-link a:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -128,7 +145,8 @@
                     { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
                     { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
                     { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
-                ]
+                ],
+                sourceLink: "https://www.cnn.com/2024/11/19/politics/mehmet-oz-trump-medicare-medicaid"
             },
             {
                 title: "Trump's Legal Case Delayed Again",
@@ -138,7 +156,8 @@
                     { text: "The DA says Trump’s felony conviction should stand. A source in close to the district attorney’s office said it is open to a four year pause of the case.", isTrue: true },
                     { text: "In an unexpected twist, Trump plans to introduce a new initiative called 'Operation Delay' where every legal challenge must be delayed until after his second term.", isTrue: false },
                     { text: "His lawyer Emil Bove has proposed using 'alternative facts' to challenge the charges, a strategy that is met with mixed reactions.", isTrue: false }
-                ]
+                ],
+                sourceLink: "https://www.cnn.com/politics/live-news/trump-transition-news-11-19-24#cm3ovd7rl000p3b6n4sukn5i1"
             }
         ];
 
@@ -193,6 +212,16 @@
             // Disable or enable buttons based on current article
             document.getElementById('prev-article').disabled = currentArticleIndex === 0;
             document.getElementById('next-article').disabled = currentArticleIndex === articles.length - 1;
+
+            // Add source link at the end
+            const sourceLinkDiv = document.createElement('div');
+            sourceLinkDiv.id = 'source-link';
+            const sourceLink = document.createElement('a');
+            sourceLink.href = article.sourceLink;
+            sourceLink.innerText = 'Source';
+            sourceLink.target = '_blank';
+            sourceLinkDiv.appendChild(sourceLink);
+            document.body.appendChild(sourceLinkDiv);
         }
 
         // Handle the previous article
@@ -225,10 +254,12 @@
             // Mark the sentence as correct or incorrect
             if (userAnswer === correctAnswer) {
                 parent.className = 'sentence correct';
+                parent.innerHTML += " TRUE";
                 correctCount++;
                 playSound(dingSound); // Play correct sound
             } else {
                 parent.className = 'sentence incorrect';
+                parent.innerHTML += " FALSE";
                 incorrectCount++;
                 playSound(buzzerSound); // Play incorrect sound
             }
