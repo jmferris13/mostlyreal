@@ -66,13 +66,17 @@
             background-color: #555;
             color: white;
         }
-        .option.correct, .option.correct-user {
-            background-color: limegreen;
-            color: white;
+        .correct-user {
+            background-color: limegreen; /* Green for correct user selection */
         }
-        .option.incorrect {
-            background-color: darkred;
-            color: white;
+        .incorrect-user {
+            background-color: red; /* Red for incorrect user selection */
+        }
+        .correct {
+            background-color: darkgreen; /* Dark green for correct answers */
+        }
+        .incorrect {
+            background-color: darkred; /* Dark red for incorrect answers */
         }
         #source-link {
             margin-top: 20px;
@@ -97,8 +101,8 @@
             <button id="next-article">Next →</button>
         </div>
         <div id="score">
-            <span class="green">0</span> Correct
-            <span class="red">0</span> Incorrect
+            <span id="correct-score" class="green">0</span> Correct
+            <span id="incorrect-score" class="red">0</span> Incorrect
             <button id="mute-btn">Mute</button>
         </div>
     </div>
@@ -190,23 +194,34 @@
             trueBtn.disabled = true;
             falseBtn.disabled = true;
             if (userAnswer === isTrue) {
-                sentenceDiv.style.backgroundColor = 'limegreen'; // Correct answer
+                sentenceDiv.style.backgroundColor = 'limegreen'; // Correct
                 if(userAnswer) {
                     trueBtn.classList.add('correct-user');
                 } else {
                     falseBtn.classList.add('correct-user');
                 }
+                updateScore(true);
             } else {
-                sentenceDiv.style.backgroundColor = 'darkred'; // Incorrect answer
+                sentenceDiv.style.backgroundColor = 'darkred'; // Incorrect
                 if(userAnswer) {
-                    trueBtn.classList.add('incorrect');
-                    falseBtn.classList.add('correct-user');
+                    trueBtn.classList.add('incorrect-user');
+                    falseBtn.classList.add('correct');
                 } else {
-                    falseBtn.classList.add('incorrect');
-                    trueBtn.classList.add('correct-user');
+                    falseBtn.classList.add('incorrect-user');
+                    trueBtn.classList.add('correct');
                 }
+                updateScore(false);
             }
-            playSound(userAnswer === isTrue ? 'ding' : 'buzzer');
+        }
+
+        function updateScore(isCorrect) {
+            const correctScore = document.getElementById('correct-score');
+            const incorrectScore = document.getElementById('incorrect-score');
+            if (isCorrect) {
+                correctScore.textContent = parseInt(correctScore.textContent) + 1;
+            } else {
+                incorrectScore.textContent = parseInt(incorrectScore.textContent) + 1;
+            }
         }
 
         function playSound(type) {
