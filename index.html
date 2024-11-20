@@ -32,7 +32,7 @@
         #score {
             font-size: 1.2em;
         }
-        #mute-btn, #prev-article, #next-article {
+        button {
             cursor: pointer;
             background: none;
             border: 1px solid white;
@@ -58,7 +58,6 @@
         }
         .option {
             margin-right: 10px;
-            cursor: pointer;
             padding: 5px 20px;
             font-size: 16px;
             border-radius: 3px;
@@ -66,25 +65,14 @@
             background-color: #555;
             color: white;
         }
-        .option.correct, .option.correct-user {
-            background-color: darkgreen; /* Green for correct answers */
+        .correct {
+            background-color: limegreen; /* Green for correct answers */
         }
-        .option.incorrect-user {
-            background-color: darkred; /* Red for incorrect user selection */
+        .incorrect {
+            background-color: red; /* Red for incorrect user selection */
         }
-        .icon {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            margin-left: 5px;
-        }
-        .correct-icon {
-            background: url('checkmark.png') no-repeat center; /* Checkmark icon */
-            background-size: cover;
-        }
-        .incorrect-icon {
-            background: url('cross.png') no-repeat center; /* Cross icon */
-            background-size: cover;
+        .muted {
+            opacity: 0.5;
         }
         #source-link {
             margin-top: 20px;
@@ -116,9 +104,7 @@
     </div>
 
     <h2 id="article-title">Dr. Oz to Lead CMS</h2>
-    <div id="article-content">
-        <!-- Article content is dynamically loaded here -->
-    </div>
+    <div id="article-content"></div>
 
     <div id="source-link">
         <a href="https://www.cnn.com" target="_blank">Source</a>
@@ -129,6 +115,7 @@
 
     <script>
         let currentArticleIndex = 0;
+        let isMuted = false;
         const articles = [
             {
                 title: "Dr. Oz to Lead CMS",
@@ -138,41 +125,34 @@
                     { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
                     { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
                     { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
-                ]
+                ],
+                sourceLink: "https://www.cnn.com/2024/11/19/politics/mehmet-oz-trump-medicare-medicaid"
             },
             {
-                title: "Climate Change and Global Policy",
+                title: "Trump's Legal Case Delayed Again",
                 sentences: [
-                    { text: "2023 was the warmest year recorded globally, surpassing previous records.", isTrue: true },
-                    { text: "New policies aim to reduce carbon emissions by 50% in the next ten years.", isTrue: true },
-                    { text: "Experts predict that sea levels will rise by 3 feet by the year 2050.", isTrue: false }
-                ]
+                    { text: "The Manhattan district attorney’s office said Tuesday it would agree to postpone Donald Trump’s sentencing in his hush money case to give prosecutors time to litigate the president-elect’s expected motion to dismiss the case.", isTrue: true },
+                    { text: "In a letter to Judge Juan Merchan, the district attorney’s office also acknowledged that Trump is not likely to be sentenced 'until after the end of Defendant’s upcoming presidential term.'", isTrue: true },
+                    { text: "The DA says Trump’s felony conviction should stand. A source in close to the district attorney’s office said it is open to a four year pause of the case.", isTrue: true },
+                    { text: "In an unexpected twist, Trump plans to introduce a new initiative called 'Operation Delay' where every legal challenge must be delayed until after his second term.", isTrue: false },
+                    { text: "His lawyer Emil Bove has proposed using 'alternative facts' to challenge the charges, a strategy that is met with mixed reactions.", isTrue: false }
+                ],
+                sourceLink: "https://www.cnn.com/politics/live-news/trump-transition-news-11-19-24#cm3ovd7rl000p3b6n4sukn5i1"
             }
         ];
 
         document.addEventListener('DOMContentLoaded', function() {
             loadArticle(currentArticleIndex);
-
-            document.getElementById('next-article').addEventListener('click', () => {
-                if (currentArticleIndex < articles.length - 1) {
-                    currentArticleIndex++;
-                    loadArticle(currentArticleIndex);
-                }
-            });
-
-            document.getElementById('prev-article').addEventListener('click', () => {
-                if (currentArticleIndex > 0) {
-                    currentArticleIndex--;
-                    loadArticle(currentArticleIndex);
-                }
-            });
+            document.getElementById('mute-btn').addEventListener('click', toggleMute);
+            document.getElementById('next-article').addEventListener('click', () => navigateArticle(1));
+            document.getElementById('prev-article').addEventListener('click', () => navigateArticle(-1));
         });
 
         function loadArticle(index) {
             const article = articles[index];
             document.getElementById('article-title').textContent = article.title;
             const contentDiv = document.getElementById('article-content');
-            contentDiv.innerHTML = ''; // Clear existing content
+            contentDiv.innerHTML = '';
             article.sentences.forEach(sentence => {
                 const sentenceDiv = document.createElement('div');
                 sentenceDiv.className = 'sentence';
@@ -196,34 +176,42 @@
                 sentenceDiv.appendChild(optionsDiv);
                 contentDiv.appendChild(sentenceDiv);
             });
+            document.getElementById('source-link').querySelector('a').href = article.sourceLink;
             checkCompletion();
         }
 
         function validateAnswer(isTrue, userAnswer, sentenceDiv, trueBtn, falseBtn) {
             trueBtn.disabled = true;
             falseBtn.disabled = true;
-            const iconSpan = document.createElement('span');
-            iconSpan.className = 'icon';
             if (userAnswer === isTrue) {
-                sentenceDiv.style.backgroundColor = 'darkgreen'; // Correct answer
-                iconSpan.className += ' correct-icon';
+                sentenceDiv.style.backgroundColor = 'limegreen';
                 updateScore(true);
             } else {
-                sentenceDiv.style.backgroundColor = 'darkred'; // Incorrect answer
-                iconSpan.className += ' incorrect-icon';
+                sentenceDiv.style.backgroundColor = 'red';
                 updateScore(false);
             }
-            userAnswer ? trueBtn.appendChild(iconSpan) : falseBtn.appendChild(iconSpan);
-            (isTrue ? trueBtn : falseBtn).classList.add('correct'); // Mark the correct option
+            if (userAnswer) {
+                trueBtn.classList.add(userAnswer === isTrue ? 'correct' : 'incorrect');
+            } else {
+                falseBtn.classList.add(userAnswer === isTrue ? 'correct' : 'incorrect');
+            }
         }
 
         function updateScore(isCorrect) {
             const correctScore = document.getElementById('correct-score');
             const incorrectScore = document.getElementById('incorrect-score');
-            if (isCorrect) {
-                correctScore.textContent = parseInt(correctScore.textContent) + 1;
-            } else {
-                incorrectScore.textContent = parseInt(incorrectScore.textContent) + 1;
+            isCorrect ? correctScore.textContent = parseInt(correctScore.textContent) + 1 : incorrectScore.textContent = parseInt(incorrectScore.textContent) + 1;
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            document.getElementById('mute-btn').classList.toggle('muted', isMuted);
+        }
+
+        function playSound(type) {
+            if (!isMuted) {
+                const sound = document.getElementById(`${type}-sound`);
+                sound.play();
             }
         }
 
@@ -235,9 +223,12 @@
             }
         }
 
-        function playSound(type) {
-            const sound = document.getElementById(`${type}-sound`);
-            sound.play();
+        function navigateArticle(direction) {
+            const newIndex = currentArticleIndex + direction;
+            if (newIndex >= 0 && newIndex < articles.length) {
+                currentArticleIndex = newIndex;
+                loadArticle(currentArticleIndex);
+            }
         }
     </script>
 </body>
