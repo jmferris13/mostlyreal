@@ -222,10 +222,11 @@
             <button id="next-article">Next →</button>
         </div>
         <div id="score">
-            <span id="correct-score" class="green">0</span> Correct
-            <span id="incorrect-score" class="red">0</span> Incorrect
-            <button id="mute-btn">Mute</button>
-        </div>
+    <span id="correct-score" class="green">0</span> Correct
+    <span id="incorrect-score" class="red">0</span> Incorrect
+    (<span id="percentage-score">0</span>%)
+    <button id="mute-btn">Mute</button>
+</div>
     </div>
 
     <h2 id="article-title">Dr. Oz to Lead CMS</h2>
@@ -244,29 +245,55 @@
         let currentArticleIndex = 0;
         let isMuted = false;
         const articles = [
-            {
-                title: "Dr. Oz to Lead CMS",
-                sentences: [
-                    { text: "President-elect Donald Trump has named Dr. Mehmet Oz as his choice to head the Centers for Medicare and Medicaid Services (CMS).", isTrue: true },
-                    { text: "Dr. Oz is a well-known cardiothoracic surgeon and television personality who also ran for Senate in Pennsylvania.", isTrue: true },
-                    { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
-                    { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
-                    { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
-                ],
-                sourceLink: "https://www.cnn.com/2024/11/19/politics/mehmet-oz-trump-medicare-medicaid"
-            },
-            {
-                title: "Trump's Legal Case Delayed Again",
-                sentences: [
-                    { text: "The Manhattan district attorney's office said Tuesday it would agree to postpone Donald Trump's sentencing in his hush money case to give prosecutors time to litigate the president-elect's expected motion to dismiss the case.", isTrue: true },
-                    { text: "In a letter to Judge Juan Merchan, the district attorney's office also acknowledged that Trump is not likely to be sentenced 'until after the end of Defendant's upcoming presidential term.'", isTrue: true },
-                    { text: "The DA says Trump's felony conviction should stand. A source in close to the district attorney's office said it is open to a four year pause of the case.", isTrue: true },
-                    { text: "In an unexpected twist, Trump plans to introduce a new initiative called 'Operation Delay' where every legal challenge must be delayed until after his second term.", isTrue: false },
-                    { text: "His lawyer Emil Bove has proposed using 'alternative facts' to challenge the charges, a strategy that is met with mixed reactions.", isTrue: false }
-                ],
-                sourceLink: "https://www.cnn.com/politics/live-news/trump-transition-news-11-19-24#cm3ovd7rl000p3b6n4sukn5i1"
-            }
-        ];
+{
+    title: "Biden and RFK Jr. Clash Over Weight Loss Drugs",
+    sentences: [
+        { text: "The Biden administration plans to provide Medicare and Medicaid coverage for weight-loss drugs like Wegovy and Zepbound, medications that can cost over $1000 per month without coverage.", isTrue: true },
+        { text: "RFK Jr. claimed drug maker Novo Nordisk doesn't market Ozempic in Denmark, instead recommending only diet changes in their home country.", isTrue: false },
+        { text: "Over 7 million Americans on Medicare and Medicaid would become eligible for coverage of these weight-loss medications under the new plan.", isTrue: true },
+        { text: "Internal FDA documents leaked by RFK Jr. show the agency suppressed studies linking Ozempic to severe mental health issues in children.", isTrue: false },
+        { text: "Ozempic was originally developed as a diabetes treatment, with Wegovy being the same medication but specifically dosed for weight loss.", isTrue: true },
+        { text: "The European Medicines Agency found no evidence that these medications cause suicidal thoughts, contrary to RFK Jr.'s claims on Fox News.", isTrue: true }
+    ],
+    sourceLink: "https://www.usatoday.com/story/life/health-wellness/2024/11/26/biden-rfk-jr-ozempic-wegovy-weight-loss-medication/76587456007/"
+},    
+{
+        
+title: "Analyzing Trump's 2024 Election Victory",
+        sentences: [
+            { text: "Trump won 76.9 million votes, the second-highest tally in American history, behind only Biden's 81.3 million in 2020.", isTrue: true },
+            { text: "Trump became the first Republican since 2004 to win both the electoral college and the popular vote.", isTrue: true },
+            { text: "The election outcome in Michigan, Pennsylvania, and Wisconsin was decided by approximately 230,000 votes combined.", isTrue: true },
+            { text: "Trump's final popular vote share fell slightly below 50%, despite winning more total votes than Harris.", isTrue: true },
+            { text: "Multiple counties reported exactly matching vote totals at precisely 3am, a statistical impossibility according to MIT researchers.", isTrue: false },
+            { text: "An independent audit found that 15% of mail-in ballots in Harris-won districts used suspicious 'color-shifting' ink.", isTrue: false },
+            { text: "Internal DNC emails revealed plans to concede the election regardless of final vote counts in key districts.", isTrue: false }
+        ],
+        sourceLink: "https://www.bbc.com/news/articles/cn5w9w160xdo"
+    },
+    {
+        title: "Dr. Oz to Lead CMS",
+        sentences: [
+            { text: "President-elect Donald Trump has named Dr. Mehmet Oz as his choice to head the Centers for Medicare and Medicaid Services (CMS).", isTrue: true },
+            { text: "Dr. Oz is a well-known cardiothoracic surgeon and television personality who also ran for Senate in Pennsylvania.", isTrue: true },
+            { text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.", isTrue: false },
+            { text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.", isTrue: true },
+            { text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.", isTrue: false }
+        ],
+        sourceLink: "https://www.cnn.com/2024/11/19/politics/mehmet-oz-trump-medicare-medicaid"
+    },
+    {
+        title: "Trump's Legal Case Delayed Again",
+        sentences: [
+            { text: "The Manhattan district attorney's office said Tuesday it would agree to postpone Donald Trump's sentencing in his hush money case to give prosecutors time to litigate the president-elect's expected motion to dismiss the case.", isTrue: true },
+            { text: "In a letter to Judge Juan Merchan, the district attorney's office also acknowledged that Trump is not likely to be sentenced 'until after the end of Defendant's upcoming presidential term.'", isTrue: true },
+            { text: "The DA says Trump's felony conviction should stand. A source in close to the district attorney's office said it is open to a four year pause of the case.", isTrue: true },
+            { text: "In an unexpected twist, Trump plans to introduce a new initiative called 'Operation Delay' where every legal challenge must be delayed until after his second term.", isTrue: false },
+            { text: "His lawyer Emil Bove has proposed using 'alternative facts' to challenge the charges, a strategy that is met with mixed reactions.", isTrue: false }
+        ],
+        sourceLink: "https://www.cnn.com/politics/live-news/trump-transition-news-11-19-24#cm3ovd7rl000p3b6n4sukn5i1"
+    }
+];
 
         document.addEventListener('DOMContentLoaded', function() {
             loadArticle(currentArticleIndex);
@@ -351,14 +378,24 @@
         }
 
         function updateScore(isCorrect) {
-            const correctScore = document.getElementById('correct-score');
-            const incorrectScore = document.getElementById('incorrect-score');
-            if (isCorrect) {
-                correctScore.textContent = parseInt(correctScore.textContent) + 1;
-            } else {
-                incorrectScore.textContent = parseInt(incorrectScore.textContent) + 1;
-            }
-        }
+    const correctScore = document.getElementById('correct-score');
+    const incorrectScore = document.getElementById('incorrect-score');
+    const percentageScore = document.getElementById('percentage-score');
+    
+    if (isCorrect) {
+        correctScore.textContent = parseInt(correctScore.textContent) + 1;
+    } else {
+        incorrectScore.textContent = parseInt(incorrectScore.textContent) + 1;
+    }
+    
+    // Calculate percentage
+    const correct = parseInt(correctScore.textContent);
+    const incorrect = parseInt(incorrectScore.textContent);
+    const total = correct + incorrect;
+    const percentage = Math.round((correct / total) * 100);
+    percentageScore.textContent = percentage;
+}
+        
 
         function toggleMute() {
             isMuted = !isMuted;
