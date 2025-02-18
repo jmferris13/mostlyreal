@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Oz to Lead CMS - News Quiz</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+    <div id="header">
+        <a href="../index.html"><img id="logo" src="../assets/images/mostlyreal1.webp" alt="Logo"></a>
+        <div id="navigation-buttons">
+            <button id="mute-btn">Mute</button>
+            <a href="trump-legal.html" class="nav-button">← Previous</a>
+            
+        </div>
+        <div id="score">
+            <span id="correct-score" class="green">0</span> Correct
+            <span id="incorrect-score" class="red">0</span> Incorrect
+            (<span id="percentage-score">0</span>%)
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1 id="article-title">Dr. Oz to Lead CMS</h1>
+        <div id="article-content"></div>
+    </div>
+
+    <div id="source-link">
+        <button onclick="window.open(this.getAttribute('data-url'), '_blank')">Source</button>
+    </div>
+
+    <audio id="ding-sound" src="../assets/sounds/ding.mp3"></audio>
+    <audio id="buzzer-sound" src="../assets/sounds/buzzer.mp3"></audio>
+
+    <script>
+        const quizData = {
+            sentences: [
+                {
+                    text: "President-elect Donald Trump has named Dr. Mehmet Oz as his choice to head the Centers for Medicare and Medicaid Services (CMS).",
+                    isTrue: true
+                },
+                {
+                    text: "Dr. Oz is a well-known cardiothoracic surgeon and television personality who also ran for Senate in Pennsylvania.",
+                    isTrue: true
+                },
+                {
+                    text: "Trump claimed that Dr. Oz invented kale, which was immediately disputed by historians.",
+                    isTrue: false
+                },
+                {
+                    text: "CMS oversees Medicare, Medicaid, and the Affordable Care Act exchanges, providing healthcare coverage to over 150 million Americans.",
+                    isTrue: true
+                },
+                {
+                    text: "Dr. Oz plans to introduce 'National Detox Wednesdays' as part of his strategy, focusing on turmeric-based solutions.",
+                    isTrue: false
+                }
+            ],
+            sourceLink: "https://www.cnn.com/2024/11/19/politics/mehmet-oz-trump-medicare-medicaid"
+        };
+    </script>
+    <script src="../assets/quiz.js"></script>
+</body>
+</html>

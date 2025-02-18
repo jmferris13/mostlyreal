@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyzing Trump's 2024 Election Victory - News Quiz</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+    <div id="header">
+       <a href="../index.html"><img id="logo" src="../assets/images/mostlyreal1.webp" alt="Logo"></a>
+        <div id="navigation-buttons">
+            <button id="mute-btn">Mute</button>
+            <a href="biden-rfk.html" class="nav-button">← Previous</a>
+            <a href="trump-legal.html" class="nav-button">Next →</a>
+        </div>
+        <div id="score">
+            <span id="correct-score" class="green">0</span> Correct
+            <span id="incorrect-score" class="red">0</span> Incorrect
+            (<span id="percentage-score">0</span>%)
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1 id="article-title">Analyzing Trump's 2024 Election Victory</h1>
+        <div id="article-content"></div>
+    </div>
+
+    <div id="source-link">
+        <button onclick="window.open(this.getAttribute('data-url'), '_blank')">Source</button>
+    </div>
+
+    <audio id="ding-sound" src="../assets/sounds/ding.mp3"></audio>
+    <audio id="buzzer-sound" src="../assets/sounds/buzzer.mp3"></audio>
+
+    <script>
+        const quizData = {
+            sentences: [
+                {
+                    text: "Trump won 76.9 million votes, the second-highest tally in American history, behind only Biden's 81.3 million in 2020.",
+                    isTrue: true
+                },
+                {
+                    text: "Trump became the first Republican since 2004 to win both the electoral college and the popular vote.",
+                    isTrue: true
+                },
+                {
+                    text: "The election outcome in Michigan, Pennsylvania, and Wisconsin was decided by approximately 230,000 votes combined.",
+                    isTrue: true
+                },
+                {
+                    text: "Trump's final popular vote share fell slightly below 50%, despite winning more total votes than Harris.",
+                    isTrue: true
+                },
+                {
+                    text: "Multiple counties reported exactly matching vote totals at precisely 3am, a statistical impossibility according to MIT researchers.",
+                    isTrue: false
+                },
+                {
+                    text: "An independent audit found that 15% of mail-in ballots in Harris-won districts used suspicious 'color-shifting' ink.",
+                    isTrue: false
+                },
+                {
+                    text: "Internal DNC emails revealed plans to concede the election regardless of final vote counts in key districts.",
+                    isTrue: false
+                }
+            ],
+            sourceLink: "https://www.bbc.com/news/articles/cn5w9w160xdo"
+        };
+    </script>
+    <script src="../assets/quiz.js"></script>
+</body>
+</html>
