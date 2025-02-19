@@ -1,21 +1,39 @@
+let isMuted = localStorage.getItem('isMuted') === 'true';
+
 document.addEventListener('DOMContentLoaded', function() {
     loadArticle(quizData);
     loadScore();
-    document.getElementById('mute-btn').addEventListener('click', toggleMute);
+    setupResetButton();
+    
+    const muteBtn = document.getElementById('mute-btn');
+    muteBtn.textContent = isMuted ? 'Unmute' : 'Mute';
+    muteBtn.classList.toggle('muted', isMuted);
+    muteBtn.addEventListener('click', toggleMute);
 });
 
-let isMuted = false;
+function setupResetButton() {
+    const resetBtn = document.createElement('button');
+    resetBtn.id = 'reset-score';
+    resetBtn.textContent = 'Reset';
+    resetBtn.onclick = resetScore;
+    document.getElementById('score').appendChild(resetBtn);
+}
+
+function resetScore() {
+    if (confirm('Are you sure you want to reset your score?')) {
+        localStorage.setItem('correctScore', '0');
+        localStorage.setItem('incorrectScore', '0');
+        loadScore();
+    }
+}
 
 function loadScore() {
-    // Get stored scores, convert to number with parseInt, default to 0 if null/undefined
     const correctScore = parseInt(localStorage.getItem('correctScore')) || 0;
     const incorrectScore = parseInt(localStorage.getItem('incorrectScore')) || 0;
     
-    // Set the scores in the DOM
     document.getElementById('correct-score').textContent = correctScore;
     document.getElementById('incorrect-score').textContent = incorrectScore;
     
-    // Update percentage
     const total = correctScore + incorrectScore;
     const percentage = total > 0 ? Math.round((correctScore / total) * 100) : 0;
     document.getElementById('percentage-score').textContent = percentage;
@@ -60,7 +78,10 @@ function validateAnswer(isTrue, userAnswer, sentenceDiv, trueBtn, falseBtn) {
     trueBtn.disabled = true;
     falseBtn.disabled = true;
 
-    sentenceDiv.classList.add(isCorrect ? 'correct' : 'incorrect');
+    // Add selected class to clicked button only
+    const selectedBtn = userAnswer ? trueBtn : falseBtn;
+    selectedBtn.classList.add('selected');
+    selectedBtn.classList.add(isCorrect ? 'correct' : 'incorrect');
 
     const indicator = document.createElement('span');
     indicator.className = `answer-indicator ${isCorrect ? 'correct-indicator' : 'incorrect-indicator'}`;
@@ -73,7 +94,6 @@ function validateAnswer(isTrue, userAnswer, sentenceDiv, trueBtn, falseBtn) {
         sentenceDiv.appendChild(correctLabel);
     }
 
-    const selectedBtn = userAnswer ? trueBtn : falseBtn;
     selectedBtn.appendChild(indicator);
 
     updateScore(isCorrect);
@@ -83,11 +103,9 @@ function validateAnswer(isTrue, userAnswer, sentenceDiv, trueBtn, falseBtn) {
 }
 
 function updateScore(isCorrect) {
-    // Get current scores from DOM
     const correctScore = document.getElementById('correct-score');
     const incorrectScore = document.getElementById('incorrect-score');
     
-    // Convert to numbers and increment
     const currentCorrect = parseInt(correctScore.textContent) || 0;
     const currentIncorrect = parseInt(incorrectScore.textContent) || 0;
     
@@ -101,7 +119,6 @@ function updateScore(isCorrect) {
         localStorage.setItem('incorrectScore', newScore);
     }
     
-    // Update percentage
     const total = parseInt(correctScore.textContent) + parseInt(incorrectScore.textContent);
     const percentage = Math.round((parseInt(correctScore.textContent) / total) * 100);
     document.getElementById('percentage-score').textContent = percentage;
