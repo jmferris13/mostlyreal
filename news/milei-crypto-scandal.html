@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milei Stumbles Into Crypto Memecoin Scandal - News Quiz</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+    <div id="header">
+        <a href="../index.html"><img id="logo" src="../assets/images/mostlyreal1.webp" alt="Logo"></a>
+        <div id="navigation-buttons">
+            <button id="mute-btn">Mute</button>
+            <!-- <a href="ARTICLENAME.html" class="nav-button">← Previous</a> -->
+            <a href="too-much-protein.html" class="nav-button">Next →</a>
+        </div>
+        <div id="score">
+            <span id="correct-score" class="green">0</span> Correct
+            <span id="incorrect-score" class="red">0</span> Incorrect
+            (<span id="percentage-score">0</span>%)
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1 id="article-title">Milei Stumbles Into Crypto Memecoin Scandal</h1>
+        <div id="article-content"></div>
+    </div>
+
+    <div id="source-link">
+        <button onclick="window.open(this.getAttribute('data-url'), '_blank')">Source</button>
+    </div>
+
+    <audio id="ding-sound" src="../assets/sounds/ding.mp3"></audio>
+    <audio id="buzzer-sound" src="../assets/sounds/buzzer.mp3"></audio>
+
+    <script>
+        const quizData = {
+            sentences: [
+                {
+                    text: "Javier Milei directed his followers to a site promoting the Libra token, which later surged past $4 billion before collapsing.",
+                    isTrue: true
+                },
+                {
+                    text: "Libra was secretly developed as part of an underground financial network designed to replace Argentina’s official currency overnight.",
+                    isTrue: false
+                },
+                {
+                    text: "Dave Portnoy, a well-known investor, claimed he lost money in the collapse and called it ‘the biggest rug pull of all time.’",
+                    isTrue: true
+                },
+                {
+                    text: "Milei announced he would launch an independent investigation but later claimed that ‘memecoins are just a state of mind.’",
+                    isTrue: false
+                },
+                {
+                    text: "The Libra token launched on the Solana blockchain, known for its fast transaction speeds and popularity among memecoin traders.",
+                    isTrue: true
+                }
+            ],
+            sourceLink: "https://www.bloomberg.com/news/articles/2025-02-17/milei-stumbles-into-crypto-memecoin-scandal-before-key-us-trip"
+        };
+    </script>
+    <script src="../assets/quiz.js"></script>
+</body>
+</html>

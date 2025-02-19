@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Much Protein Do You Really Need? - News Quiz</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+    <div id="header">
+        <a href="../index.html"><img id="logo" src="../assets/images/mostlyreal1.webp" alt="Logo"></a>
+        <div id="navigation-buttons">
+            <button id="mute-btn">Mute</button>
+            <a href="milei-crypto-scandal.html" class="nav-button">← Previous</a>
+            <a href="DOGE-social-security-access.html" class="nav-button">Next →</a>
+        </div>
+        <div id="score">
+            <span id="correct-score" class="green">0</span> Correct
+            <span id="incorrect-score" class="red">0</span> Incorrect
+            (<span id="percentage-score">0</span>%)
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1 id="article-title">How Much Protein Do You Really Need to Get Strong?</h1>
+        <div id="article-content"></div>
+    </div>
+
+    <div id="source-link">
+        <button onclick="window.open(this.getAttribute('data-url'), '_blank')">Source</button>
+    </div>
+
+    <audio id="ding-sound" src="../assets/sounds/ding.mp3"></audio>
+    <audio id="buzzer-sound" src="../assets/sounds/buzzer.mp3"></audio>
+
+    <script>
+        const quizData = {
+            sentences: [
+                {
+                    text: "The UK government recommends sedentary adults consume around 0.75g of protein per kg of body weight per day.",
+                    isTrue: true
+                },
+                {
+                    text: "People who engage in high-intensity resistance training may need between 1.6-2.2g of protein per kg of body weight daily to maximize muscle growth.",
+                    isTrue: true
+                },
+                {
+                    text: "Consuming too much protein can cause your skin to take on a leathery texture over time due to amino acid buildup.",
+                    isTrue: false
+                },
+                {
+                    text: "The human body can only process 20 grams of protein per meal, and any excess turns into body fat immediately.",
+                    isTrue: false
+                },
+                {
+                    text: "Vegetarians often struggle to get enough protein, but protein powders can be a convenient solution to meet daily requirements.",
+                    isTrue: true
+                }
+            ],
+            sourceLink: "https://www.bbc.com/future/article/20250212-how-much-protein-do-you-really-need-to-get-strong"
+        };
+    </script>
+    <script src="../assets/quiz.js"></script>
+</body>
+</html>

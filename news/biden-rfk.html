@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biden and RFK Jr. Clash Over Weight Loss Drugs - News Quiz</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+    <div id="header">
+        <a href="../index.html"><img id="logo" src="../assets/images/mostlyreal1.webp" alt="Logo"></a>
+        <div id="navigation-buttons">
+            <button id="mute-btn">Mute</button>
+	    <a href="DOGE-social-security-access.html" class="nav-button">← Previous</a>
+            <a href="trump-election.html" class="nav-button">Next →</a>
+        </div>
+        <div id="score">
+            <span id="correct-score" class="green">0</span> Correct
+            <span id="incorrect-score" class="red">0</span> Incorrect
+            (<span id="percentage-score">0</span>%)
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1 id="article-title">Biden and RFK Jr. Clash Over Weight Loss Drugs</h1>
+        <div id="article-content"></div>
+    </div>
+
+    <div id="source-link">
+        <button onclick="window.open(this.getAttribute('data-url'), '_blank')">Source</button>
+    </div>
+
+    <audio id="ding-sound" src="../assets/sounds/ding.mp3"></audio>
+    <audio id="buzzer-sound" src="../assets/sounds/buzzer.mp3"></audio>
+
+    <script>
+        const quizData = {
+            sentences: [
+                {
+                    text: "The Biden administration plans to provide Medicare and Medicaid coverage for weight-loss drugs like Wegovy and Zepbound, medications that can cost over $1000 per month without coverage.",
+                    isTrue: true
+                },
+                {
+                    text: "RFK Jr. claimed drug maker Novo Nordisk doesn't market Ozempic in Denmark, instead recommending only diet changes in their home country.",
+                    isTrue: false
+                },
+                {
+                    text: "Over 7 million Americans on Medicare and Medicaid would become eligible for coverage of these weight-loss medications under the new plan.",
+                    isTrue: true
+                },
+                {
+                    text: "Internal FDA documents leaked by RFK Jr. show the agency suppressed studies linking Ozempic to severe mental health issues in children.",
+                    isTrue: false
+                },
+                {
+                    text: "Ozempic was originally developed as a diabetes treatment, with Wegovy being the same medication but specifically dosed for weight loss.",
+                    isTrue: true
+                },
+                {
+                    text: "The European Medicines Agency found no evidence that these medications cause suicidal thoughts, contrary to RFK Jr.'s claims on Fox News.",
+                    isTrue: true
+                }
+            ],
+            sourceLink: "https://www.usatoday.com/story/life/health-wellness/2024/11/26/biden-rfk-jr-ozempic-wegovy-weight-loss-medication/76587456007/"
+        };
+    </script>
+    <script src="../assets/quiz.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trump's Legal Case Delayed Again - News Quiz</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+    <div id="header">
+        <a href="../index.html"><img id="logo" src="../assets/images/mostlyreal1.webp" alt="Logo"></a>
+        <div id="navigation-buttons">
+            <button id="mute-btn">Mute</button>
+            <a href="trump-election.html" class="nav-button">← Previous</a>
+            <a href="dr-oz.html" class="nav-button">Next →</a>
+        </div>
+        <div id="score">
+            <span id="correct-score" class="green">0</span> Correct
+            <span id="incorrect-score" class="red">0</span> Incorrect
+            (<span id="percentage-score">0</span>%)
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1 id="article-title">Trump's Legal Case Delayed Again</h1>
+        <div id="article-content"></div>
+    </div>
+
+    <div id="source-link">
+        <button onclick="window.open(this.getAttribute('data-url'), '_blank')">Source</button>
+    </div>
+
+    <audio id="ding-sound" src="../assets/sounds/ding.mp3"></audio>
+    <audio id="buzzer-sound" src="../assets/sounds/buzzer.mp3"></audio>
+
+    <script>
+        const quizData = {
+            sentences: [
+                {
+                    text: "The Manhattan district attorney's office said Tuesday it would agree to postpone Donald Trump's sentencing in his hush money case to give prosecutors time to litigate the president-elect's expected motion to dismiss the case.",
+                    isTrue: true
+                },
+                {
+                    text: "In a letter to Judge Juan Merchan, the district attorney's office also acknowledged that Trump is not likely to be sentenced 'until after the end of Defendant's upcoming presidential term.'",
+                    isTrue: true
+                },
+                {
+                    text: "The DA says Trump's felony conviction should stand. A source in close to the district attorney's office said it is open to a four year pause of the case.",
+                    isTrue: true
+                },
+                {
+                    text: "In an unexpected twist, Trump plans to introduce a new initiative called 'Operation Delay' where every legal challenge must be delayed until after his second term.",
+                    isTrue: false
+                },
+                {
+                    text: "His lawyer Emil Bove has proposed using 'alternative facts' to challenge the charges, a strategy that is met with mixed reactions.",
+                    isTrue: false
+                }
+            ],
+            sourceLink: "https://www.cnn.com/politics/live-news/trump-transition-news-11-19-24#cm3ovd7rl000p3b6n4sukn5i1"
+        };
+    </script>
+    <script src="../assets/quiz.js"></script>
+</body>
+</html>
