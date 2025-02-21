@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mass Deportation Would Shock the US Economy - News Quiz</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <meta name="description" content="How mass deportations would impact the U.S. economy, affecting food prices, housing, and jobs. Test your knowledge in this news quiz.">
+    <meta name="keywords" content="mass deportation, immigration, economy, food prices, housing, Trump deportation plan, immigration policy, undocumented workers">
+    <meta name="author" content="Mostly Real News">
+</head>
+<body>
+    <div id="header">
+        <a href="../index.html"><img id="logo" src="../assets/images/mostlyreal1.webp" alt="Logo"></a>
+        <div id="navigation-buttons">
+            <button id="mute-btn">Mute</button>
+            <!-- <a href="ARTICLENAME.html" class="nav-button">← Previous</a> -->
+            <a href="milei-crypto-scandal.html" class="nav-button">Next →</a>
+        </div>
+        <div id="score">
+            <span id="correct-score" class="green">0</span> Correct
+            <span id="incorrect-score" class="red">0</span> Incorrect
+            (<span id="percentage-score">0</span>%)
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1 id="article-title">Mass Deportation Would Shock the US Economy</h1>
+        <div id="article-content"></div>
+    </div>
+
+    <div id="source-link">
+        <button onclick="window.open(this.getAttribute('data-url'), '_blank')">Source</button>
+    </div>
+
+    <audio id="ding-sound" src="../assets/sounds/ding.mp3"></audio>
+    <audio id="buzzer-sound" src="../assets/sounds/buzzer.mp3"></audio>
+
+    <script>
+        const quizData = {
+            sentences: [
+                {
+                    text: "Mass deportations would immediately reduce rents nationwide by 50% due to a surplus of empty apartments.",
+                    isTrue: false
+                },
+                {
+                    text: "Undocumented immigrants contribute over $96 billion in federal, state, and local taxes annually.",
+                    isTrue: true
+                },
+                {
+                    text: "Most undocumented immigrants don’t pay any taxes, draining government resources.",
+                    isTrue: false
+                },
+                {
+                    text: "Past immigration crackdowns, like Alabama’s HB-56, led to massive economic losses due to worker shortages.",
+                    isTrue: true
+                },
+                {
+                    text: "The Trump administration is requesting $175 billion from Congress for immigration enforcement over the next four years.",
+                    isTrue: true
+                }
+            ],
+            sourceLink: "https://theconversation.com/deporting-millions-of-immigrants-would-shock-the-us-economy-increasing-housing-food-and-other-prices-245342"
+        };
+    </script>
+    <script src="../assets/quiz.js"></script>
+</body>
+</html>
