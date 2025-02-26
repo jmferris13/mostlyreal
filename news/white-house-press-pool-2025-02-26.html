@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>White House Limits Newswires in Press Pool - News Quiz</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+    <div id="header">
+        <a href="../index.html"><img id="logo" src="../assets/images/mostlyreal1.webp" alt="Logo"></a>
+        <div class="tagline"><span>Unreal times</span> call for mostly real news...</div>
+       <div id="navigation-buttons">
+    <button id="mute-btn">Mute</button>
+    <!-- <a href="prev-article.html" class="nav-button">← PREV</a> -->
+    <a href="trump-gold-card-2025-02-25.html" class="nav-button">NEXT →</a>
+</div>
+        <div id="score">
+            <span id="correct-score" class="green">0</span> Correct
+            <span id="incorrect-score" class="red">0</span> Incorrect
+            (<span id="percentage-score">0</span>%)
+            <button id="reset-score">Reset</button>
+        </div>
+    </div>
+    <div class="main-content">
+        <h1 id="article-title">White House Limits Newswires in Press Pool</h1>
+        <div id="article-content"></div>
+    </div>
+    <div id="source-link" style="display: none;">
+        <button onclick="window.open(this.getAttribute('data-url'), '_blank')">Source</button>
+    </div>
+    <div id="explain-link" style="display: none;">
+        <button onclick="window.open(this.getAttribute('data-url'), '_blank')">Why Fake?</button>
+    </div>
+    <audio id="ding-sound" src="../assets/sounds/ding.mp3"></audio>
+    <audio id="buzzer-sound" src="../assets/sounds/buzzer.mp3"></audio>
+    <script>
+        const quizData = {
+            sentences: [
+                {
+                    text: "The White House added Newsmax and Blaze Media to the so-called press pool for Wednesday, and more controversially Alex Jones, formerly of conspiracy forward organization, Infowars.",
+                    isTrue: false
+                },
+                {
+                    text: "Trump also said his social media company will be starting a news division called America1 that will be invited to the pool.",
+                    isTrue: false
+                },
+                {
+                    text: "The White House Press Secretary said the new system would include 'legacy outlets who have participated in the press pool for decades' as well as 'well-deserving outlets who have never been allowed to share in this awesome responsibility.'",
+                    isTrue: true
+                },
+                {
+                    text: "Bloomberg News was the only wire service chosen for the first day of the new pooling system, while AP and Reuters were excluded.",
+                    isTrue: true
+                },
+                {
+                    text: "The dispute between the White House and the AP stems from the Trump administration's move to block the newswire because its style guide continues to use the 'Gulf of Mexico' while acknowledging the name 'Gulf of America.'",
+                    isTrue: true
+                },
+                {
+                    text: "The White House took control of the press pool a day after a federal court hearing in which a judge denied the Associated Press's request for a temporary restraining order but warned the government about excluding AP under the existing system.",
+                    isTrue: true
+                }
+            ],
+            sourceLink: "https://www.bloomberg.com/news/articles/2025-02-26/white-house-limits-newswires-in-press-pool-takeover"
+        };
+    </script>
+    <script src="../assets/quiz.js"></script>
+</body>
+</html>
