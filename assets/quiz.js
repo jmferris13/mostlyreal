@@ -53,12 +53,12 @@ function loadArticle(data) {
 
         const trueBtn = document.createElement('button');
         trueBtn.className = 'option';
-        trueBtn.textContent = 'True';
+        trueBtn.textContent = 'Real';
         trueBtn.onclick = () => validateAnswer(sentence.isTrue, true, sentenceDiv, trueBtn, falseBtn);
 
         const falseBtn = document.createElement('button');
         falseBtn.className = 'option';
-        falseBtn.textContent = 'False';
+        falseBtn.textContent = 'Fake';
         falseBtn.onclick = () => validateAnswer(sentence.isTrue, false, sentenceDiv, trueBtn, falseBtn);
 
         optionsDiv.appendChild(trueBtn);
@@ -70,6 +70,16 @@ function loadArticle(data) {
     const sourceLink = document.getElementById('source-link');
     sourceLink.style.display = 'none';
     sourceLink.querySelector('button').setAttribute('data-url', data.sourceLink);
+    
+    // Setup explanation link if it exists
+    const explainLink = document.getElementById('explain-link');
+    if (explainLink) {
+        explainLink.style.display = 'none';
+        // Create path for explanation page based on current URL
+        const currentPath = window.location.pathname;
+        const falsethingsPath = currentPath.replace('.html', '-falsethings.html');
+        explainLink.querySelector('button').setAttribute('data-url', falsethingsPath);
+    }
 }
 
 function validateAnswer(isTrue, userAnswer, sentenceDiv, trueBtn, falseBtn) {
@@ -90,7 +100,7 @@ function validateAnswer(isTrue, userAnswer, sentenceDiv, trueBtn, falseBtn) {
     if (!isCorrect) {
         const correctLabel = document.createElement('span');
         correctLabel.className = 'correct-answer-label';
-        correctLabel.textContent = `Correct answer: ${isTrue ? 'True' : 'False'}`;
+        correctLabel.textContent = `Correct answer: ${isTrue ? 'Real' : 'Fake'}`;
         sentenceDiv.appendChild(correctLabel);
     }
 
@@ -144,5 +154,11 @@ function checkCompletion() {
     const allDisabled = Array.from(options).every(option => option.disabled);
     if (allDisabled) {
         document.getElementById('source-link').style.display = 'block';
+        
+        // Show explanation link if it exists
+        const explainLink = document.getElementById('explain-link');
+        if (explainLink) {
+            explainLink.style.display = 'block';
+        }
     }
 }
