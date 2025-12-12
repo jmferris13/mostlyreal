@@ -3,91 +3,27 @@ let isMuted = localStorage.getItem('isMuted') === 'true';
 document.addEventListener('DOMContentLoaded', function() {
     loadArticle(quizData);
     loadScore();
-    setupNavigation();
-    checkIfAlreadyCompleted();
-
+    setupResetButton();
+    
     const muteBtn = document.getElementById('mute-btn');
     muteBtn.textContent = isMuted ? 'Unmute' : 'Mute';
     muteBtn.classList.toggle('muted', isMuted);
     muteBtn.addEventListener('click', toggleMute);
-
-    const resetBtn = document.getElementById('reset-score');
-    resetBtn.addEventListener('click', resetScore);
 });
 
-function checkIfAlreadyCompleted() {
-    const currentPage = window.location.pathname.split('/').pop();
-    const completedArticles = JSON.parse(localStorage.getItem('completedArticles') || '[]');
-
-    if (completedArticles.includes(currentPage)) {
-        // Disable all answer buttons
-        const options = document.querySelectorAll('.option');
-        options.forEach(option => {
-            option.disabled = true;
-            option.style.opacity = '0.5';
-        });
-
-        // Show a message that they've already completed this
-        const contentDiv = document.getElementById('article-content');
-        const notice = document.createElement('div');
-        notice.style.cssText = 'background: rgba(255, 46, 151, 0.2); border: 2px solid #FF2E97; padding: 20px; margin-bottom: 20px; text-align: center; font-weight: bold;';
-        notice.textContent = 'You have already completed this quiz. Click RESET to clear your score and retake all quizzes.';
-        contentDiv.insertBefore(notice, contentDiv.firstChild);
-    }
-}
-
-function markArticleCompleted() {
-    const currentPage = window.location.pathname.split('/').pop();
-    const completedArticles = JSON.parse(localStorage.getItem('completedArticles') || '[]');
-
-    if (!completedArticles.includes(currentPage)) {
-        completedArticles.push(currentPage);
-        localStorage.setItem('completedArticles', JSON.stringify(completedArticles));
-    }
-}
-
-function setupNavigation() {
-    // Only set up navigation if articles list exists
-    if (typeof articles === 'undefined') return;
-
-    // Get current page filename
-    const currentPage = window.location.pathname.split('/').pop();
-    const currentIndex = articles.indexOf(currentPage);
-
-    if (currentIndex === -1) return;
-
-    const navButtons = document.getElementById('navigation-buttons');
-    if (!navButtons) return;
-
-    // Clear existing nav buttons (keep mute button)
-    const existingNavLinks = navButtons.querySelectorAll('.nav-button');
-    existingNavLinks.forEach(link => link.remove());
-
-    // Add PREV button (older article - further down the list)
-    if (currentIndex < articles.length - 1) {
-        const prevLink = document.createElement('a');
-        prevLink.href = articles[currentIndex + 1];
-        prevLink.className = 'nav-button';
-        prevLink.textContent = '← PREV';
-        navButtons.appendChild(prevLink);
-    }
-
-    // Add NEXT button (newer article - further up the list)
-    if (currentIndex > 0) {
-        const nextLink = document.createElement('a');
-        nextLink.href = articles[currentIndex - 1];
-        nextLink.className = 'nav-button';
-        nextLink.textContent = 'NEXT →';
-        navButtons.appendChild(nextLink);
-    }
+function setupResetButton() {
+    const resetBtn = document.createElement('button');
+    resetBtn.id = 'reset-score';
+    resetBtn.textContent = 'Reset';
+    resetBtn.onclick = resetScore;
+    document.getElementById('score').appendChild(resetBtn);
 }
 
 function resetScore() {
-    if (confirm('Are you sure you want to reset your score? This will also allow you to retake all quizzes.')) {
+    if (confirm('Are you sure you want to reset your score?')) {
         localStorage.setItem('correctScore', '0');
         localStorage.setItem('incorrectScore', '0');
-        localStorage.setItem('completedArticles', '[]');
-        location.reload();
+        loadScore();
     }
 }
 
@@ -117,12 +53,12 @@ function loadArticle(data) {
 
         const trueBtn = document.createElement('button');
         trueBtn.className = 'option';
-        trueBtn.textContent = 'Real';
+        trueBtn.textContent = 'True';
         trueBtn.onclick = () => validateAnswer(sentence.isTrue, true, sentenceDiv, trueBtn, falseBtn);
 
         const falseBtn = document.createElement('button');
         falseBtn.className = 'option';
-        falseBtn.textContent = 'Fake';
+        falseBtn.textContent = 'False';
         falseBtn.onclick = () => validateAnswer(sentence.isTrue, false, sentenceDiv, trueBtn, falseBtn);
 
         optionsDiv.appendChild(trueBtn);
@@ -134,16 +70,6 @@ function loadArticle(data) {
     const sourceLink = document.getElementById('source-link');
     sourceLink.style.display = 'none';
     sourceLink.querySelector('button').setAttribute('data-url', data.sourceLink);
-    
-    // Setup explanation link if it exists
-    const explainLink = document.getElementById('explain-link');
-    if (explainLink) {
-        explainLink.style.display = 'none';
-        // Create path for explanation page based on current URL
-        const currentPath = window.location.pathname;
-        const falsethingsPath = currentPath.replace('.html', '-falsethings.html');
-        explainLink.querySelector('button').setAttribute('data-url', falsethingsPath);
-    }
 }
 
 function validateAnswer(isTrue, userAnswer, sentenceDiv, trueBtn, falseBtn) {
@@ -164,7 +90,7 @@ function validateAnswer(isTrue, userAnswer, sentenceDiv, trueBtn, falseBtn) {
     if (!isCorrect) {
         const correctLabel = document.createElement('span');
         correctLabel.className = 'correct-answer-label';
-        correctLabel.textContent = `Correct answer: ${isTrue ? 'Real' : 'Fake'}`;
+        correctLabel.textContent = `Correct answer: ${isTrue ? 'True' : 'False'}`;
         sentenceDiv.appendChild(correctLabel);
     }
 
@@ -217,14 +143,6 @@ function checkCompletion() {
     const options = document.querySelectorAll('.option');
     const allDisabled = Array.from(options).every(option => option.disabled);
     if (allDisabled) {
-        markArticleCompleted();
-
         document.getElementById('source-link').style.display = 'block';
-
-        // Show explanation link if it exists
-        const explainLink = document.getElementById('explain-link');
-        if (explainLink) {
-            explainLink.style.display = 'block';
-        }
     }
 }

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Test your news knowledge: Can you identify real and fake facts about the US delaying tariffs on Mexican and Canadian goods?">
+    <meta name="keywords" content="Trump, tariffs, Mexico, Canada, stock market, trade policy, economy">
+    <title>US Delays Tariffs on Mexican and Canadian Goods - News Quiz</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+    <div id="header">
+        <a href="../index.html"><img id="logo" src="../assets/images/mostlyreal1.webp" alt="Logo"></a>
+        
+       <div id="navigation-buttons">
+    <button id="mute-btn">Mute</button>
+    <a href="trump-zelensky-oval-office-2025-03-01.html" class="nav-button">← PREV</a>
+    <!-- <a href="next-article.html" class="nav-button">NEXT →</a> -->
+</div>
+        <div id="score">
+    <span id="correct-score" class="green">0</span> Correct
+    <span id="incorrect-score" class="red">0</span> Incorrect
+    (<span id="percentage-score">0</span>%)
+    <button id="reset-score">RESET</button>
+</div>
+    </div>
+    <div class="main-content">
+        <h1 id="article-title">US Delays Tariffs on Mexican and Canadian Goods</h1>
+        <div id="article-content"></div>
+    </div>
+    <div id="source-link" style="display: none;">
+        <button onclick="window.open(this.getAttribute('data-url'), '_blank')">Source</button>
+    </div>
+    <div id="explain-link" style="display: none;">
+        <button onclick="window.open(this.getAttribute('data-url'), '_blank')">Why Fake?</button>
+    </div>
+    <audio id="ding-sound" src="../assets/sounds/ding.mp3"></audio>
+    <audio id="buzzer-sound" src="../assets/sounds/buzzer.mp3"></audio>
+    <script>
+        const quizData = {
+            sentences: [
+                {
+                    text: "The U.S. will pause tariffs on goods from Mexico and Canada that comply with the North American free trade pact until April 2, according to a White House statement.",
+                    isTrue: true
+                },
+                {
+                    text: "President Trump said, \"Mexico and Canada better keep kissing my you know what if they want these new tariffs to go away\" during a press conference on the trade policy.",
+                    isTrue: false
+                },
+                {
+                    text: "Commerce Secretary Howard Lutnick said on CNBC that a one-month tariff reprieve could extend beyond just automakers.",
+                    isTrue: true
+                },
+                {
+                    text: "When asked if American automakers' pleading had anything to do with the tariff delay on autos, Trump said, \"I'm in a position to make your business very very bad so, you as the late, great Peter Tosh said, if you want to live, treat me good.\"",
+                    isTrue: false
+                },
+                {
+                    text: "Treasury Secretary Scott Bessent called Canadian Prime Minister Justin Trudeau a \"numbskull,\" warning his tough approach with the U.S. will lead to higher tariffs on Canadian imports.",
+                    isTrue: true
+                },
+                {
+                    text: "The tech-heavy Nasdaq Composite closed in correction territory, more than 10% off its closing high, falling 2.61% for the day.",
+                    isTrue: true
+                },
+                {
+                    text: "Trump said, \"This is why I like real estate - the prices don't go up and down crazy every day just because greedy Wall Street guys are mad my tariffs might take a bite out of profits and cause a totally manageable recession, probably the smallest one we'll ever see if we can even see it.\"",
+                    isTrue: false
+                }
+            ],
+            sourceLink: "https://www.wsj.com/livecoverage/stock-market-today-dow-sp500-nasdaq-live-03-06-2025"
+        };
+    </script>
+    <script src="../data/articles.js"></script>
+    <script src="../assets/quiz.js"></script>
+</body>
+</html>

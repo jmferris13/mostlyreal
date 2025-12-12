@@ -1,0 +1,219 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(180deg, #FF6347 0%, #FF4500 100%);
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Soviet Constructivist Overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(45deg, rgba(50, 205, 50, 0.1) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(50, 205, 50, 0.1) 25%, transparent 25%);
+    background-size: 50px 50px;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.main-content {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+}
+
+#header {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid #32CD50;
+    box-shadow: 0 0 20px rgba(50, 205, 80, 0.3);
+    transform: skew(-5deg);
+}
+
+#logo {
+    width: 130px;
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(50, 205, 50, 0.5));
+    margin: 0;
+    transform: rotate(-5deg);
+}
+
+#navigation-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+}
+
+#score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #32CD50;
+    text-shadow: 0 0 10px rgba(50, 205, 50, 0.5);
+    margin-top: 15px;
+    margin-bottom: 5px;
+    gap: 6px;
+    transform: skew(-5deg);
+}
+
+button, .nav-button {
+    background: transparent;
+    border: 2px solid #32CD50;
+    color: #32CD50;
+    padding: 8px 20px;
+    border-radius: 0;
+    font-size: 0.95em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    transform: skew(-10deg);
+}
+
+button::before, .nav-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(50, 205, 50, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+button:hover::before, .nav-button:hover::before {
+    left: 100%;
+}
+
+#article-title {
+    text-align: center;
+    margin: 25px 0;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 
+        2px 2px 0 #32CD50,
+        -2px -2px 0 #FF4500;
+    line-height: 1.2;
+    transform: skew(-5deg);
+}
+
+.sentence {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #32CD50;
+    padding: 25px;
+    margin-bottom: 25px;
+    font-size: 1.1em;
+    line-height: 1.5;
+    box-shadow: 0 0 20px rgba(50, 205, 50, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.sentence::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+        -45deg,
+        rgba(50, 205, 50, 0.05) 0, 
+        rgba(50, 205, 50, 0.05) 10px, 
+        transparent 10px, 
+        transparent 20px
+    );
+    transform: rotate(45deg);
+    z-index: 1;
+}
+
+.options {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.option {
+    flex: 1;
+    padding: 12px 20px;
+    font-size: 1.05em;
+    background: transparent;
+    border: 2px solid #32CD50;
+    color: #32CD50;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    transform: skew(-5deg);
+}
+
+.option:hover:not(:disabled) {
+    background: #32CD50;
+    color: #FF4500;
+    box-shadow: 0 0 20px rgba(50, 205, 50, 0.5);
+}
+
+#source-link button {
+    background: #32CD50;
+    color: #FF4500;
+    border: none;
+    transform: skew(-10deg);
+}
+
+/* Additional Soviet Constructivist Touches */
+body::after {
+    content: '';
+    position: fixed;
+    bottom: -50px;
+    right: -50px;
+    width: 300px;
+    height: 300px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%2332CD50" opacity="0.1" d="M50 0 L0 100 L100 100 Z"/></svg>');
+    transform: rotate(-45deg);
+    z-index: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #header, #score, #article-title, button, .nav-button, .option {
+        transform: skew(0deg);
+    }
+}
